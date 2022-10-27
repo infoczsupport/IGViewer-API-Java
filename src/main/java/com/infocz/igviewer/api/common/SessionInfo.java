@@ -11,7 +11,9 @@ public class SessionInfo {
 	private static Map<String, ConnectionInfo> session = new HashMap<String, ConnectionInfo>();
 
 	public static ConnectionInfo getSession(String key){
-		return (ConnectionInfo)session.get(key);
+		ConnectionInfo connectionInfo = (ConnectionInfo)session.get(key);
+		connectionInfo.setDateTime(LocalDateTime.now());
+		return connectionInfo;
 	}
 
 	public static void setSession(String key, String database){
