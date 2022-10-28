@@ -51,7 +51,9 @@ public class DbController {
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();	
 		try {
+			log.debug("\nresultMap ={}", resultMap);
 			resultMap.put("rows", dbService.selectGraphPaths());
+			log.debug("\nresultMap ={}", resultMap);
 		} catch(Exception e) {
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());
@@ -60,7 +62,7 @@ public class DbController {
 
 		resultMap.put("result", "Ok");
 		resultMap.put("msg", "");
-		
+		log.debug("\nresultMap ={}", resultMap);
 		return resultMap;
 	}
 

@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.infocz.igviewer.api.mapper.DbMapper;
+
 @Service
 public class DbService {
     @Autowired DbMapper dbMapper;
