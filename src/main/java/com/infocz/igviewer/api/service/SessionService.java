@@ -33,4 +33,7 @@ public class SessionService {
         log.debug("SessionInfo = {}", SessionInfo.getSession(sessionID));
     }
 
+    public void timeoutSession() {
+        SessionInfo.timeOutSession();
+    }
 }
