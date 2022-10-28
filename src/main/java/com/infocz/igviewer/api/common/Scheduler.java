@@ -1,4 +1,4 @@
-package com.infocz.igviewer.api.batch;
+package com.infocz.igviewer.api.common;
 
 import java.io.IOException;
 import java.time.LocalDate;
