@@ -1,5 +1,6 @@
 package com.infocz.igviewer.api.session;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.log4j.Log4j2;
@@ -7,6 +8,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 public class SessionService {
+    @Value("${com.infocz.igviewer.session-time-seconds}")
+	private Integer sessionTimeSeconds;
+
     public boolean isSession(String sessionID){
         return SessionInfo.getSession(sessionID) != null;
     }
@@ -30,7 +34,7 @@ public class SessionService {
         log.debug("SessionInfo = {}", SessionInfo.getSession(sessionID));
     }
 
-    public void removeSession() {
-        SessionInfo.removeSession();
+    public void timeoutSession() {
+        SessionInfo.removeSession(sessionTimeSeconds);
     }
 }

@@ -16,10 +16,10 @@ import lombok.extern.slf4j.Slf4j;;
 public class Scheduler {
   @Autowired SessionService sessionService;
   
-  @Scheduled(cron = "0 0/10 * * * ?")
-  private void removeSession () throws IOException {
-    log.info("Scheduler removeSession Start >>>>>>>>>>>>>>>>>> {}" , LocalDateTime.now());
-    sessionService.removeSession();
-    log.info("Scheduler removeSession End   <<<<<<<<<<<<<<<<<< {}" , LocalDateTime.now());
+  @Scheduled(cron = "0 0/1 * * * ?")
+  private void timeoutSession () throws IOException {
+    log.info("Scheduler timeoutSession Start >>>>>>>>>>>>>>>>>> {}" , LocalDateTime.now());
+    sessionService.timeoutSession();
+    log.info("Scheduler timeoutSession End   <<<<<<<<<<<<<<<<<< {}" , LocalDateTime.now());
   }
 }

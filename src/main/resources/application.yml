@@ -10,7 +10,11 @@ spring:
     mapper-locations: "classpath:/mapper/**/*.xml"
     hikari:
       maximum-pool-size: 24
-      connection-test-query: "SELECT NOW() FROM dual:"
+      connection-test-query: "SELECT NOW() FROM dual;"
+com:
+  infocz:
+    igviewer:
+      session-time-seconds: 3600
 
 logging:
   level:

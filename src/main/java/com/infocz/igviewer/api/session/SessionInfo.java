@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -24,14 +26,16 @@ public class SessionInfo {
 		session.put(key, connectionInfo);
 	}
 
-	public static void removeSession() {
+	public static void removeSession(Integer timeout) {
+		log.info("sessionTime = {}", timeout);
+
 		for ( String key: session.keySet() ) {
 			LocalDateTime curTime = LocalDateTime.now();
 			LocalDateTime sesTime = session.get(key).getDateTime();
 			Duration duration = Duration.between(sesTime, curTime);
 
-			if ( duration.getSeconds() > 3600 ) {
-				log.debug("Time Out Session Remove. = {}", key);
+			if ( duration.getSeconds() > timeout ) {
+				log.info("Time Out Session Remove. = {}", key);
 				session.remove(key);
 			}
 		}

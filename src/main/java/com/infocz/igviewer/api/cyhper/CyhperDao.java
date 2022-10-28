@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CyhperDao {
-  @Autowired private JdbcTemplate jdbcTemplate; 
+	@Autowired private JdbcTemplate jdbcTemplate; 
 
 	public SqlRowSet executeForRowSet(String sql) {
 		return jdbcTemplate.queryForRowSet(sql);     
