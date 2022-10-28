@@ -12,7 +12,7 @@ public class SessionInfo {
 
 	public static ConnectionInfo getSession(String key){
 		ConnectionInfo connectionInfo = (ConnectionInfo)session.get(key);
-		connectionInfo.setDateTime(LocalDateTime.now( ));
+		connectionInfo.setDateTime(LocalDateTime.now());
 		return connectionInfo;
 	}
 
