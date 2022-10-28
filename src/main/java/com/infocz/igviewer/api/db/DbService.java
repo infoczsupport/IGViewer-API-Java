@@ -1,4 +1,4 @@
-package com.infocz.igviewer.api.service;
+package com.infocz.igviewer.api.db;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,8 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.infocz.igviewer.api.mapper.DbMapper;
 
 @Service
 public class DbService {

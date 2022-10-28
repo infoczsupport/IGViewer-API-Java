@@ -1,15 +1,13 @@
-package com.infocz.igviewer.api.common;
+package com.infocz.igviewer.api.session;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-@Data
 public class SessionInfo {
 	private static Map<String, ConnectionInfo> session = new HashMap<String, ConnectionInfo>();
 
@@ -26,7 +24,7 @@ public class SessionInfo {
 		session.put(key, connectionInfo);
 	}
 
-	public static void timeOutSession() {
+	public static void removeSession() {
 		for ( String key: session.keySet() ) {
 			LocalDateTime curTime = LocalDateTime.now();
 			LocalDateTime sesTime = session.get(key).getDateTime();

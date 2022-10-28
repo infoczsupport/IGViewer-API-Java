@@ -1,4 +1,4 @@
-package com.infocz.igviewer.api.mapper;
+package com.infocz.igviewer.api.db;
 
 import java.util.ArrayList;
 import java.util.Map;

@@ -1,9 +1,6 @@
-package com.infocz.igviewer.api.service;
+package com.infocz.igviewer.api.session;
 
 import org.springframework.stereotype.Service;
-
-import com.infocz.igviewer.api.common.ConnectionInfo;
-import com.infocz.igviewer.api.common.SessionInfo;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -33,7 +30,7 @@ public class SessionService {
         log.debug("SessionInfo = {}", SessionInfo.getSession(sessionID));
     }
 
-    public void timeoutSession() {
-        SessionInfo.timeOutSession();
+    public void removeSession() {
+        SessionInfo.removeSession();
     }
 }

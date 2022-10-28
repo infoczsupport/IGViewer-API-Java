@@ -1,4 +1,4 @@
-package com.infocz.igviewer.api.service;
+package com.infocz.igviewer.api.cyhper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,6 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.springframework.stereotype.Service;
 
-import com.infocz.igviewer.api.common.ApiDao;
 import com.infocz.igviewer.api.common.Utils;
 
 import lombok.extern.log4j.Log4j2;
@@ -23,12 +22,12 @@ import net.bitnine.agensgraph.graph.Vertex;
 @Log4j2
 @Service
 public class CypherService {
-    @Autowired ApiDao apiDao;
+    @Autowired CyhperDao cyhperDao;
 
     public Map<String, Object> execute(String sql) throws Exception {
         Map<String, Object> retMap = new HashMap<String, Object>(); 
         List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>(); 
-        SqlRowSet rs = apiDao.executeForRowSet(sql);
+        SqlRowSet rs = cyhperDao.executeForRowSet(sql);
         while ( rs.next() ) {                        
             SqlRowSetMetaData metaData = rs.getMetaData();
             Map<String, Object> map = new HashMap<String, Object>(); 

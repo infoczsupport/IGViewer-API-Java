@@ -1,13 +1,13 @@
 package com.infocz.igviewer.api.common;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.infocz.igviewer.api.service.SessionService;
+import com.infocz.igviewer.api.session.SessionService;
 
 import lombok.extern.slf4j.Slf4j;;
 
@@ -16,10 +16,10 @@ import lombok.extern.slf4j.Slf4j;;
 public class Scheduler {
   @Autowired SessionService sessionService;
   
-  @Scheduled(cron = "0 0/5 * * * ?")
-  private void deleteSession () throws IOException {
-    log.debug("Scheduler DeleteSession Start: {}" , LocalDate.now());
-    sessionService.timeoutSession();
-    log.debug("Scheduler DeleteSession End: {}" , LocalDate.now());
+  @Scheduled(cron = "0 0/10 * * * ?")
+  private void removeSession () throws IOException {
+    log.info("Scheduler removeSession Start >>>>>>>>>>>>>>>>>> {}" , LocalDateTime.now());
+    sessionService.removeSession();
+    log.info("Scheduler removeSession End   <<<<<<<<<<<<<<<<<< {}" , LocalDateTime.now());
   }
 }
