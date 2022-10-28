@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;;
 public class Scheduler {
   @Autowired SessionService sessionService;
   
-  @Scheduled(cron = "0 0/1 * * * ?")
+  @Scheduled(cron = "0 0/10 * * * ?")
   private void timeoutSession () throws IOException {
     log.info("Scheduler timeoutSession Start >>>>>>>>>>>>>>>>>> {}" , LocalDateTime.now());
     sessionService.timeoutSession();
