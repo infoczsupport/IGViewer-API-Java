@@ -4,17 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.infocz.igviewer.api.common.Utils;
 import com.infocz.igviewer.api.db.DbService;
-import com.infocz.igviewer.api.session.SessionInfo;
 import com.infocz.igviewer.api.session.SessionService;
 
 import lombok.extern.log4j.Log4j2;
@@ -23,7 +22,6 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/api/db")
 @RestController
 public class DbController {
-	@Autowired DataSource dataSource;
 	@Autowired DbService dbService;
 	@Autowired SessionService sessionService;
 
@@ -41,7 +39,6 @@ public class DbController {
 		resultMap.put("msg","");
 		resultMap.put("sessionID", sessionID);
 		resultMap.put("config", requestBody);
-
 		return resultMap;
 	}
 
@@ -51,9 +48,7 @@ public class DbController {
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();	
 		try {
-			log.debug("\nresultMap ={}", resultMap);
 			resultMap.put("rows", dbService.selectGraphPaths());
-			log.debug("\nresultMap ={}", resultMap);
 		} catch(Exception e) {
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());
@@ -62,7 +57,6 @@ public class DbController {
 
 		resultMap.put("result", "Ok");
 		resultMap.put("msg", "");
-		log.debug("\nresultMap ={}", resultMap);
 		return resultMap;
 	}
 
@@ -77,7 +71,6 @@ public class DbController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			sessionService.setGraph(sessionID, graph);
-			log.debug("SessionInfo = {}, {}", sessionID, SessionInfo.getSession(sessionID));
 		} catch(Exception e) {
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());
@@ -87,12 +80,11 @@ public class DbController {
 		resultMap.put("result", "Ok");
 		resultMap.put("msg", "");
 		resultMap.put("setCnt", 1);
-
 		return resultMap;
-	}	
+	}
 
 	@PostMapping("/meta")
-	Map<String, Object> getMetaData(@RequestBody Map<String, Object> requestBody) throws Exception {		
+	Map<String, Object> getMetaData(@RequestParam Map<String, Object> requestBody) throws Exception {		
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getMetaData");
 		log.debug("requestBody={}", requestBody);
 
@@ -114,12 +106,11 @@ public class DbController {
 
 		resultMap.put("result", "Ok");
 		resultMap.put("msg", "");
-
 		return resultMap;
 	}
 
 	@PostMapping("/getMapInit")
-	Map<String, Object> getMapInit(@RequestBody Map<String, Object> requestBody) throws Exception {		
+	Map<String, Object> getMapInit(@RequestParam Map<String, Object> requestBody) throws Exception {		
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getMapInit");
 		log.debug("requestBody={}", requestBody);
 
@@ -140,12 +131,11 @@ public class DbController {
 
 		resultMap.put("result", "Ok");
 		resultMap.put("msg", "");
-
 		return resultMap;
 	}
 
 	@PostMapping("/getEdgeList")
-	Map<String, Object> getEdgeList(@RequestBody Map<String, Object> requestBody) throws Exception {		
+	Map<String, Object> getEdgeList(@RequestParam Map<String, Object> requestBody) throws Exception {		
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getEdgeList");
 		log.debug("requestBody={}", requestBody);
 		
@@ -169,7 +159,6 @@ public class DbController {
 
 		resultMap.put("result", "Ok");
 		resultMap.put("msg", "");
-		log.debug("resultMap={}", resultMap);
 		return resultMap;
 	}
 }

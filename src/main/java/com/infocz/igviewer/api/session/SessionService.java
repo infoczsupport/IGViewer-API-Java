@@ -31,6 +31,7 @@ public class SessionService {
 
     public void setSession(String sessionID, String database) {
         SessionInfo.setSession(sessionID, database);
+        log.debug("sessionID = {}", sessionID);
         log.debug("SessionInfo = {}", SessionInfo.getSession(sessionID));
     }
 

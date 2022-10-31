@@ -2,10 +2,7 @@ package com.infocz.igviewer.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableScheduling
 @SpringBootApplication
@@ -14,19 +11,6 @@ public class ApiApplication {
 		SpringApplication.run(ApiApplication.class, args);
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-				.allowedOrigins("http://localhost:3000")
-				.allowedMethods("*") // 기타 설정
-				.allowedHeaders("*");
-			}
-		};
-	}
-	
 	// @Bean
 	// CommandLineRunner initDatabase(EmployeeRepository employeeRepository, TeamRepository teamRepository) {
 	// 	return args -> {

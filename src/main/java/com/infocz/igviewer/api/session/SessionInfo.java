@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -40,4 +38,13 @@ public class SessionInfo {
 			}
 		}
 	}
+
+	public static String toStr(){
+		String retStr = "";
+		for (String key : session.keySet()) {
+			retStr += "\nsessionID=" + key + " " + session.get(key).toString();
+		}
+		return retStr;
+	}
+
 }
