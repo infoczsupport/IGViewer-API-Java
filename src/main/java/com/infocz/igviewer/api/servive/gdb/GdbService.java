@@ -1,4 +1,4 @@
-package com.infocz.igviewer.api.servive.db;
+package com.infocz.igviewer.api.servive.gdb;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,32 +7,26 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.infocz.igviewer.api.mapper.gdb.DbMapper;
-import com.infocz.igviewer.api.mapper.rdb.RdbMapper;
+import com.infocz.igviewer.api.mapper.gdb.GdbMapper;
 
 @Service
-public class DbService {
-    @Autowired DbMapper dbMapper;
-    @Autowired RdbMapper rdbMapper;
-
-    public List<Map<String, Object>> selectEmployee() throws Exception {
-        return rdbMapper.selectEmployee();
-    }
-
+public class GdbService {
+    @Autowired GdbMapper gdbMapper;
+    
     public List<Map<String, Object>> selectGraphPaths() throws Exception {
-        return dbMapper.selectGraphPaths();
+        return gdbMapper.selectGraphPaths();
     }    
 
     public int setGraphPath(String graph) throws Exception {
-        return dbMapper.setGraphPath(graph);
+        return gdbMapper.setGraphPath(graph);
     }
 
     public Map<String, Object> selectMetaData(Map<String, Object> param, String database, String graph) throws Exception {
         Map<String, Object> metaData = new HashMap<String, Object>();
 
         try {
-            metaData.put("labels", dbMapper.selectLabels(param));
-            metaData.put("properties", dbMapper.selectProperties(param));
+            metaData.put("labels", gdbMapper.selectLabels(param));
+            metaData.put("properties", gdbMapper.selectProperties(param));
             metaData.put("database", database);
             metaData.put("graph", graph);
             // metaData.put("role", dbMapper.selectRole());
@@ -44,10 +38,10 @@ public class DbService {
     }
 
     public List<Map<String, Object>>  selectAgMap(Map<String, Object> param) throws Exception {
-        return dbMapper.selectAgMap(param);
+        return gdbMapper.selectAgMap(param);
     }
     
     public List<Map<String, Object>>  selectEdgeList(Map<String, Object> param) throws Exception {
-        return dbMapper.selectEdgeList(param);
+        return gdbMapper.selectEdgeList(param);
     }
 }

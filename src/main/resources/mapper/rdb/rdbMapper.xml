@@ -2,10 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.infocz.igviewer.api.mapper.rdb.RdbMapper">
 
-    <select id="selectEmployee" resultType="HashMap">
-        /* DbMapper.selectEmployee */ 
-        SELECT * 
-          FROM employee
+  <select id="selectEmployee" resultType="HashMap">
+    /* DbMapper.selectEmployee */ 
+    SELECT * 
+      FROM employee
+	</select>
+
+  <select id="selectTableInfo" resultType="HashMap">
+    /* DbMapper.selectTableInfo */ 
+    SELECT  TABLE_SCHEMA
+         ,  TABLE_NAME
+         ,  ORDINAL_POSITION
+         ,  COLUMN_NAME
+         ,  COLUMN_TYPE
+         ,  COLUMN_KEY
+         ,  IS_NULLABLE, EXTRA
+         ,  COLUMN_COMMENT
+      FROM  INFORMATION_SCHEMA.COLUMNS
+     WHERE  TABLE_SCHEMA in ('sample')
+      <!-- and COLUMN_KEY = 'PRI' -->
+     ORDER  BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSITION
 	</select>
 
 

@@ -1,4 +1,4 @@
-package com.infocz.igviewer.api.servive.cyhper;
+package com.infocz.igviewer.api.servive.gdb;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,12 +22,12 @@ import net.bitnine.agensgraph.graph.Vertex;
 @Log4j2
 @Service
 public class CypherService {
-    @Autowired CyhperDao cyhperDao;
+    @Autowired GdbDao gdbDao;
 
     public Map<String, Object> execute(String sql) throws Exception {
         Map<String, Object> retMap = new HashMap<String, Object>(); 
         List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>(); 
-        SqlRowSet rs = cyhperDao.executeForRowSet(sql);
+        SqlRowSet rs = gdbDao.executeForRowSet(sql);
         while ( rs.next() ) {                        
             SqlRowSetMetaData metaData = rs.getMetaData();
             Map<String, Object> map = new HashMap<String, Object>(); 

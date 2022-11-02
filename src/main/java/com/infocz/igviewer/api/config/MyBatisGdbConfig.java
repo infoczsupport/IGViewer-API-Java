@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -42,5 +43,10 @@ public class MyBatisGdbConfig {
     @Bean(name = "sqlSessionTemplateGdb")
     public SqlSessionTemplate sqlSessionTemplateGdb(@Qualifier("sqlSessionFactoryGdb") SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
+    }
+
+    @Bean(name = "jdbcTemplateGdb")
+    public JdbcTemplate jdbcTemplateGdb(@Qualifier("dataSourceGdb") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 }

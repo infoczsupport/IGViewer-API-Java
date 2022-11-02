@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
-public interface DbMapper {
+public interface GdbMapper {
      ArrayList<Map<String, Object>> selectGraphPaths();
 
      Map<String, Object> setGraphPath();
