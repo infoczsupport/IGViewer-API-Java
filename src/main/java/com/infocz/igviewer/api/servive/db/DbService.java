@@ -1,4 +1,4 @@
-package com.infocz.igviewer.api.db;
+package com.infocz.igviewer.api.servive.db;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,15 +7,21 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.infocz.igviewer.api.mapper.DbMapper;
+import com.infocz.igviewer.api.mapper.gdb.DbMapper;
+import com.infocz.igviewer.api.mapper.rdb.RdbMapper;
 
 @Service
 public class DbService {
     @Autowired DbMapper dbMapper;
+    @Autowired RdbMapper rdbMapper;
+
+    public List<Map<String, Object>> selectEmployee() throws Exception {
+        return rdbMapper.selectEmployee();
+    }
 
     public List<Map<String, Object>> selectGraphPaths() throws Exception {
         return dbMapper.selectGraphPaths();
-    }
+    }    
 
     public int setGraphPath(String graph) throws Exception {
         return dbMapper.setGraphPath(graph);

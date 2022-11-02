@@ -1,4 +1,4 @@
-package com.infocz.igviewer.api.cyhper;
+package com.infocz.igviewer.api.servive.cyhper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

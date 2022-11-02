@@ -1,4 +1,4 @@
-package com.infocz.igviewer.api.session;
+package com.infocz.igviewer.api.servive.session;
 
 import java.time.LocalDateTime;
 

@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.infocz.igviewer.api.session.SessionInfo;
+import com.infocz.igviewer.api.servive.session.SessionInfo;
 
 import lombok.extern.log4j.Log4j2;
 
