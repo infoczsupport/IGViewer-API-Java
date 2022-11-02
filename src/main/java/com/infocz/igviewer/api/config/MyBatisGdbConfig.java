@@ -18,20 +18,20 @@ import org.springframework.context.annotation.Primary;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@MapperScan(value="com.infocz.igviewer.api.mapper.gdb", sqlSessionFactoryRef="sqlSessionFactory")
+@MapperScan(value="com.infocz.igviewer.api.mapper.gdb", sqlSessionFactoryRef="sqlSessionFactoryGdb")
 public class MyBatisGdbConfig {
     @Value("${spring.datasource-gdb.mapper-locations}") String mybatisPath;
 
     @Primary
-    @Bean(name = "dataSource")
+    @Bean(name = "dataSourceGdb")
     @ConfigurationProperties(prefix = "spring.datasource-gdb")
-    public DataSource dataSource() {
+    public DataSource dataSourceGdb() {
         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 
     @Primary
-    @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource, ApplicationContext applicationContext) throws Exception {
+    @Bean(name = "sqlSessionFactoryGdb")
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSourceGdb") DataSource dataSource, ApplicationContext applicationContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(mybatisPath));
@@ -39,8 +39,8 @@ public class MyBatisGdbConfig {
     }
 
     @Primary
-    @Bean(name = "sqlSessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplateGdb(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+    @Bean(name = "sqlSessionTemplateGdb")
+    public SqlSessionTemplate sqlSessionTemplateGdb(@Qualifier("sqlSessionFactoryGdb") SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 }
