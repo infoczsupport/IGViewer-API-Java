@@ -25,7 +25,7 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
 
     implementation 'net.bitnine:agensgraph-jdbc:1.4.2'
-    implementation 'org.mariadb.jdbc:mariadb-java-client'    
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.6'    
 
     compileOnly 'org.projectlombok:lombok'
 

@@ -52,7 +52,7 @@
     </select>
 
 
-    <select id="selectEdgeList" parameterType="map" resultType="HashMap">
+    <!-- <select id="selectEdgeList" parameterType="map" resultType="HashMap">
         /* DbMapper.selectEdgeList */ 
         SELECT  ta.e_label
              ,  ta.count
@@ -66,6 +66,97 @@
             on  name(ta.e_label) = concat('"', am.labname, '"')
          WHERE  am.labkind = 'e'
          order  by ta.count desc 
-    </select>
+    </select> -->
 
+    <sql id="keywordIsOnly">
+        SELECT DISTINCT ta.e_label, ta.count, am.labdesc as title  
+        FROM(MATCH (n1) - [edge] - (n2) WHERE (id(n1)=${keyword}) RETURN label(edge) as e_label, COUNT(DISTINCT id(n2)) as count) ta
+        INNER JOIN ag_map am
+        ON name(ta.e_label) = concat('"', am.labname, '"')
+        WHERE am.labkind = 'e'
+        ORDER BY ta.count DESC
+    </sql>
+
+    <sql id="intersectMatch">
+        <foreach item="item" index="index" collection="keyword" open="(" close=")" separator="INTERSECT">
+            MATCH (n) - [r] - (m) WHERE id(n)='${keyword[index]}' AND label(n)='${category[index]}' RETURN DISTINCT(label(r)) AS e_label
+        </foreach>
+    </sql>
+
+    <sql id="keywordForeachOrN1">
+        <foreach item="item" index="index" collection="keyword" open="(" close=")" separator="OR">
+            id(n1) = ${item}
+        </foreach>
+    </sql>
+
+    <sql id="keywordForeachOrN2">
+        <foreach item="item" index="index" collection="keyword" open="(" close=")" separator="OR">
+            id(n2) = ${item}
+        </foreach>
+    </sql>
+
+    <sql id="foreachFrom">
+        <foreach item="item" index="index" collection="keyword" separator=",">
+            (MATCH (b${index})-[ee${index}]-(nn${index}:${category[index]}) WHERE id(nn${index}) = ${keyword[index]} return * ) T${index} 
+        </foreach>
+    </sql>
+
+    <sql id="foreachTableWhere">
+        <foreach item="item" index="index" collection="keyword" separator="AND">
+            <if test="index != 0">
+                T${index - 1}.b${index - 1} = T${index}.b${index}
+            </if>
+        </foreach>
+    </sql>
+
+    <select id="selectEdgeList" parameterType="map" resultType="HashMap">
+        /* DbMapper.selectEdgeList */
+        <if test="keyword.getClass().getSimpleName().equals('String')
+                    and category.getClass().getSimpleName().equals('String')">
+            <include refid="keywordIsOnly"></include>
+        </if>
+
+        <if test="!keyword.getClass().getSimpleName().equals('String')
+                    and !category.getClass().getSimpleName().equals('String')
+                    and nodesLogic == 'AND'
+                    and showCnt == 'true'">
+        SELECT DISTINCT ta.e_label, ca.count FROM (
+			<include refid="intersectMatch"></include>
+		) AS ta
+        LEFT OUTER JOIN (
+            MATCH (n1:${category[0]})-[edge]-(b)-[edge1]-(n2:${category[0]})
+            WHERE
+            <include refid="keywordForeachOrN1"></include>
+            AND
+            <include refid="keywordForeachOrN2"></include>
+            AND id(b) IN (
+                SELECT id(b0)
+                FROM
+                    <include refid="foreachFrom"></include>
+                WHERE
+                    <include refid="foreachTableWhere"></include>
+            )
+            RETURN label(edge) as e_label, COUNT(DISTINCT b)
+        ) AS ca
+		ON ta.e_label = ca.e_label
+        </if>
+
+        <if test="!keyword.getClass().getSimpleName().equals('String')
+                    and !category.getClass().getSimpleName().equals('String')
+                    and nodesLogic == 'AND'
+                    and showCnt != 'true'">
+            <include refid="intersectMatch"></include>
+        </if>
+
+        <if test="!keyword.getClass().getSimpleName().equals('String')
+                    and !category.getClass().getSimpleName().equals('String')
+                    and nodesLogic == 'OR'
+                    and showCnt == 'true'">   
+            MATCH (n1) - [edge] - (n2)
+            WHERE
+            <include refid="keywordForeachOrN1"></include>
+            RETURN label(edge) as e_label, COUNT(DISTINCT id(n2)) as count ORDER BY count DESC
+        </if>
+
+    </select>
 </mapper>
