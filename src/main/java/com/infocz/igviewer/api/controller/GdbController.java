@@ -158,7 +158,7 @@ public class GdbController {
 		param.put("showCnt", Utils.getString(requestBody.get("showCnt")));
 		param.put("nodesLogic", Utils.getString(requestBody.get("nodesLogic")));
 		log.debug("param={}", param);
-		log.debug("param keyword = {}", param.get("keyword"));
+
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			dbService.setGraphPath(graph);
