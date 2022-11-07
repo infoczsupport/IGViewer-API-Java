@@ -2,27 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.infocz.igviewer.api.mapper.rdb.RdbMapper">
 
-  <select id="selectEmployee" resultType="HashMap">
+  <select id="selectEmployee" resultType="camelMap">
     /* DbMapper.selectEmployee */ 
     SELECT * 
       FROM employee
 	</select>
 
-  <select id="selectTableInfo" resultType="HashMap">
+  <select id="selectTableInfo" resultType="camelMap">
     /* DbMapper.selectTableInfo */ 
-    SELECT  TABLE_SCHEMA
-         ,  TABLE_NAME
-         ,  ORDINAL_POSITION
-         ,  COLUMN_NAME
-         ,  COLUMN_TYPE
-         ,  COLUMN_KEY
-         ,  IS_NULLABLE, EXTRA
-         ,  COLUMN_COMMENT
-      FROM  INFORMATION_SCHEMA.COLUMNS
-     WHERE  TABLE_SCHEMA in ('sample')
-      <!-- and COLUMN_KEY = 'PRI' -->
-     ORDER  BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSITION
+    SELECT  t.TABLE_SCHEMA
+         ,  t.TABLE_NAME
+         ,  c.ORDINAL_POSITION
+         ,  c.COLUMN_NAME
+         ,  concat(t.TABLE_NAME, '.', c.COLUMN_NAME) as "KEY"
+         ,  c.COLUMN_TYPE
+         ,  c.COLUMN_KEY
+         ,  c.IS_NULLABLE, EXTRA
+         ,  c.COLUMN_COMMENT
+      FROM  INFORMATION_SCHEMA.TABLES t
+      left  join INFORMATION_SCHEMA.COLUMNS c
+        on  t.TABLE_SCHEMA = c.TABLE_SCHEMA
+       and  t.TABLE_NAME = c.TABLE_NAME
+     WHERE  t.TABLE_SCHEMA='sample'
+    <!-- and c.COLUMN_KEY = 'PRI' -->
+       and  t.TABLE_TYPE = 'BASE TABLE'
+     ORDER  BY t.TABLE_SCHEMA, t.TABLE_NAME, c.ORDINAL_POSITION
 	</select>
-
 
 </mapper>

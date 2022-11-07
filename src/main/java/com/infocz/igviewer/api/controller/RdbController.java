@@ -13,7 +13,7 @@ import com.infocz.igviewer.api.servive.session.SessionService;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-@RequestMapping("/rdb")
+@RequestMapping("/api/rdb")
 @RestController
 public class RdbController {
 	@Autowired RdbService rdbService;
@@ -52,6 +52,6 @@ public class RdbController {
 
 		resultMap.put("result", "Ok");
 		resultMap.put("msg", "");
-		return resultMap;	
+		return resultMap;
 	}
 }

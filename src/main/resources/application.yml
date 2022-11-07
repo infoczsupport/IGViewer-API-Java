@@ -18,6 +18,7 @@ spring:
     username: root
     password: "!@Rjwu34"
     mapper-locations: "classpath:/mapper/rdb/**/*.xml"
+    mybatis-config: "classpath:/config/mybatis-config.xml"
     hikari:
       maximum-pool-size: 24
       connection-test-query: "SELECT NOW() FROM dual:"
