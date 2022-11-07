@@ -1,6 +1,8 @@
 package com.infocz.igviewer.api.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -85,7 +87,7 @@ public class GdbController {
 	}
 
 	@PostMapping("/meta")
-	Map<String, Object> getMetaData(@RequestParam Map<String, Object> requestBody) throws Exception {		
+	Map<String, Object> getMetaData(@RequestBody Map<String, Object> requestBody) throws Exception {		
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getMetaData");
 		log.debug("requestBody={}", requestBody);
 
@@ -111,11 +113,11 @@ public class GdbController {
 	}
 
 	@PostMapping("/getMapInit")
-	Map<String, Object> getMapInit(@RequestParam Map<String, Object> requestBody) throws Exception {		
+	Map<String, Object> getMapInit(@RequestParam Map<String, Object> requestParam) throws Exception {		
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getMapInit");
-		log.debug("requestBody={}", requestBody);
+		log.debug("requestParam={}", requestParam);
 
-		String sessionID = Utils.getString(requestBody.get("sessionID"));
+		String sessionID = Utils.getString(requestParam.get("sessionID"));
 		Map<String, Object> param = new HashMap<String, Object>();
 		log.debug("graph={}", sessionService.getGraph(sessionID));
 		param.put("graph", sessionService.getGraph(sessionID));
@@ -136,7 +138,7 @@ public class GdbController {
 	}
 
 	@PostMapping("/getEdgeList")
-	Map<String, Object> getEdgeList(@RequestParam Map<String, Object> requestBody) throws Exception {		
+	Map<String, Object> getEdgeList(@RequestBody Map<String, Object> requestBody) throws Exception {		
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getEdgeList");
 		log.debug("requestBody={}", requestBody);
 		
@@ -144,8 +146,17 @@ public class GdbController {
 		String graph = sessionService.getGraph(sessionID);
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("graph", graph);
-		param.put("category", Utils.getString(requestBody.get("category")));
-		param.put("keyword", Utils.getString(requestBody.get("keyword")));
+		
+		if ( requestBody.get("keyword").getClass().getSimpleName().equals("ArrayList") ) {
+			param.put("keyword",Utils.getStringArray(requestBody.get("keyword")));
+			param.put("category", Utils.getStringArray(requestBody.get("category")));
+		} else {
+			param.put("keyword", Utils.getString(requestBody.get("keyword")));
+			param.put("category", Utils.getString(requestBody.get("category")));
+		}
+
+		param.put("showCnt", Utils.getString(requestBody.get("showCnt")));
+		param.put("nodesLogic", Utils.getString(requestBody.get("nodesLogic")));
 		log.debug("param={}", param);
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();

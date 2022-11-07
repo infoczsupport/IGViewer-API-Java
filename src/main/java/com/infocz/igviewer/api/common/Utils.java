@@ -1,9 +1,14 @@
 package com.infocz.igviewer.api.common;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class Utils {
 	/**
 	 * uuid 생성
@@ -89,6 +94,29 @@ public class Utils {
 		}
 
 		return str.trim();
+	}
+
+	public static String[] getStringArray(Object obj) {
+		if (obj == null) return null;
+
+		if ( obj.getClass().getSimpleName().equals("ArrayList")) {
+			ArrayList<String> arrList = (ArrayList<String>) obj;
+			String[] result = arrList.toArray(new String[arrList.size()]);
+			return result;
+		}
+
+		if ( ! obj.getClass().isArray() ) {
+			String[] result = Arrays.asList(obj).toArray( new String[0] );
+			return result;
+		}
+
+		if( ! obj.getClass().isArray() ) {
+			String[] result = {""};
+			result[0] = (String) obj; 
+			return result;
+		}
+
+		return (String[]) obj;
 	}
 
 	public static Boolean isEmpty(Object value) {

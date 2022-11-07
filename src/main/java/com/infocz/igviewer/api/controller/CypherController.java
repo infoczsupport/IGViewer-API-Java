@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.infocz.igviewer.api.common.Utils;
@@ -25,7 +25,7 @@ public class CypherController {
 	@Autowired SessionService sessionService;
 
 	@PostMapping("/cypher")
-	Map<String, Object> getCypherData(@RequestParam Map<String, Object> requestBody) throws Exception {		
+	Map<String, Object> getCypherData(@RequestBody Map<String, Object> requestBody) throws Exception {		
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getCypherData");
 		log.debug("requestBody = {}", requestBody);
 
