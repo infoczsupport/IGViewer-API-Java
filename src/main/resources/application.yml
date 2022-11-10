@@ -13,7 +13,7 @@ spring:
       connection-test-query: "SELECT NOW() FROM dual;"
 
   datasource-rdb:
-    jdbc-url: jdbc:mariadb://220.76.92.129:3001/sample
+    jdbc-url: jdbc:mariadb://220.76.92.129:3001/cosmax
     driverClassName: org.mariadb.jdbc.Driver
     username: root
     password: "!@Rjwu34"

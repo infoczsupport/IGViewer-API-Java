@@ -1,6 +1,5 @@
 package com.infocz.igviewer.api.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +21,10 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RequestMapping("/api/db")
+@SuppressWarnings("unchecked")
 @RestController
 public class GdbController {
-	@Autowired GdbService dbService;
+	@Autowired GdbService gdbService;
 	@Autowired SessionService sessionService;
 
 	@PostMapping("/connect")
@@ -50,7 +50,7 @@ public class GdbController {
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();	
 		try {
-			resultMap.put("rows", dbService.selectGraphPaths());
+			resultMap.put("rows", gdbService.selectGraphPaths());
 		} catch(Exception e) {
 			log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> {}", e.getMessage());
 			resultMap.put("result", "Fail");
@@ -82,7 +82,7 @@ public class GdbController {
 
 		resultMap.put("result", "Ok");
 		resultMap.put("msg", "");
-		resultMap.put("setCnt", 1);
+		resultMap.put("cnt", 1);
 		return resultMap;
 	}
 
@@ -100,7 +100,7 @@ public class GdbController {
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			resultMap = dbService.selectMetaData(param, database, graph);
+			resultMap = gdbService.selectMetaData(param, database, graph);
 		} catch(Exception e) {
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());
@@ -125,7 +125,7 @@ public class GdbController {
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			resultMap.put("rows", dbService.selectAgMap(param));
+			resultMap.put("rows", gdbService.selectAgMap(param));
 		} catch(Exception e) {
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());
@@ -161,8 +161,8 @@ public class GdbController {
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			dbService.setGraphPath(graph);
-			resultMap.put("rows", Utils.convertDoubleQuotation(dbService.selectEdgeList(param)));
+			gdbService.setGraphPath(graph);
+			resultMap.put("rows", Utils.convertDoubleQuotation(gdbService.selectEdgeList(param)));
 		} catch(Exception e) {
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());
@@ -171,6 +171,53 @@ public class GdbController {
 
 		resultMap.put("result", "Ok");
 		resultMap.put("msg", "");
+		return resultMap;
+	}
+
+	@PostMapping("/callProcedure")
+	Map<String, Object> callProcedure(@RequestBody Map<String, Object> requestBody) throws Exception {
+		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> callProcedure");
+		log.debug("requestBody = {}", requestBody);
+
+		String proc = Utils.getString(requestBody.get("proc"));
+		log.debug("proc={}", proc);
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();		
+		try {
+			gdbService.callProcedure(proc);
+		} catch(Exception e) {
+			resultMap.put("result", "Fail");
+			resultMap.put("msg", e.getMessage());
+			return resultMap;  
+		}
+
+		resultMap.put("result", "Ok");
+		resultMap.put("msg", "");
+		resultMap.put("cnt", 1);
+		return resultMap;
+	}
+
+	@PostMapping("/createVertex")
+	Map<String, Object> createVertex(@RequestBody Map<String, Object> requestBody) throws Exception {
+		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> createVertex");
+		log.debug("requestBody = {}", requestBody);
+
+		String sessionID = Utils.getString(requestBody.get("sessionID"));
+		String graph 	 = sessionService.getGraph(sessionID);
+		List<Map<String, Object>> tables = (List<Map<String, Object>>) requestBody.get("tables");
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();		
+		try {
+			gdbService.createVertex(graph, tables);
+		} catch(Exception e) {
+			resultMap.put("result", "Fail");
+			resultMap.put("msg", e.getMessage());
+			return resultMap;  
+		}
+
+		resultMap.put("result", "Ok");
+		resultMap.put("msg", "");
+		resultMap.put("cnt", 1);
 		return resultMap;
 	}
 }

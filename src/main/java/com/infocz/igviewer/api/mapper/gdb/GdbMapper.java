@@ -22,4 +22,11 @@ public interface GdbMapper {
      
      ArrayList<Map<String, Object>> selectEdgeList(Map<String, Object> param);   
  
+     int callSpAgMap();
+     int callSpAgProperties();
+
+     int createVertex(String tableName);
+     int dropVertex(String tableName);     
+     int insertVertex(Map<String, Object> param);
+     
 }

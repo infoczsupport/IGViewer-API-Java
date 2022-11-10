@@ -10,23 +10,49 @@
 
   <select id="selectTableInfo" resultType="camelMap">
     /* DbMapper.selectTableInfo */ 
-    SELECT  t.TABLE_SCHEMA
-         ,  t.TABLE_NAME
-         ,  c.ORDINAL_POSITION
-         ,  c.COLUMN_NAME
-         ,  concat(t.TABLE_NAME, '.', c.COLUMN_NAME) as "KEY"
-         ,  c.COLUMN_TYPE
-         ,  c.COLUMN_KEY
-         ,  c.IS_NULLABLE, EXTRA
-         ,  c.COLUMN_COMMENT
+    SELECT  t.TABLE_NAME as "KEY"
+         ,  t.TABLE_NAME 
+         ,  t.TABLE_COMMENT
+         ,  LOWER(GROUP_CONCAT(case when c.COLUMN_KEY = 'PRI' then c.COLUMN_NAME else null end)) as PRIS
+         ,  LOWER(GROUP_CONCAT(c.COLUMN_NAME)) as COLUMN_NAMES
       FROM  INFORMATION_SCHEMA.TABLES t
       left  join INFORMATION_SCHEMA.COLUMNS c
         on  t.TABLE_SCHEMA = c.TABLE_SCHEMA
        and  t.TABLE_NAME = c.TABLE_NAME
-     WHERE  t.TABLE_SCHEMA='sample'
-    <!-- and c.COLUMN_KEY = 'PRI' -->
+     WHERE  t.TABLE_SCHEMA='cosmax'
        and  t.TABLE_TYPE = 'BASE TABLE'
-     ORDER  BY t.TABLE_SCHEMA, t.TABLE_NAME, c.ORDINAL_POSITION
+     group  by t.TABLE_NAME
+         ,  t.TABLE_COMMENT
+     ORDER  BY t.TABLE_NAME
 	</select>
 
+  <select id="selectColumns" parameterType="String" resultType="camelMap">
+    /* DbMapper.selectColumns */ 
+    SELECT  LOWER(COLUMN_NAME) as COLUMN_NAME
+    	   ,  COLUMN_KEY
+    	   ,  COLUMN_COMMENT
+      FROM  INFORMATION_SCHEMA.COLUMNS     
+     WHERE  TABLE_NAME = #{tableNm}
+     ORDER  BY ORDINAL_POSITION;
+	</select>
+
+  <select id="selectTotalCnt" parameterType="String" resultType="integer">
+    /* DbMapper.selectTotalCnt */ 
+    SELECT  count(1) 
+      FROM  ${tableNm}
+	</select>
+
+  <select id="selectTableLimit" parameterType="String" resultType="camelMap">
+    /* DbMapper.selectTableLimit */ 
+    SELECT  ROW_NUMBER() over() as "KEY"
+         ,  t.*
+      FROM  ${tableNm} t
+     limit  10
+	</select>
+
+  <select id="selectTableList" parameterType="String" resultType="camelMap">
+    /* DbMapper.selectTableList */ 
+    SELECT  *
+      FROM  ${tableNm}
+	</select>
 </mapper>
