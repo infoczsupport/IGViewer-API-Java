@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infocz.igviewer.api.mapper.gdb.EdgeMapper">
+    
+    <!-- CREATE ELABEL knows;
+    CREATE ELABEL live_together;
+    CREATE ELABEL room_mate inherits (knows, live_together);
+
+
+    CREATE (:person {name: 'Tom'})-[:knows {fromdate:'2011-11-24'}]->(:person {name: 'Summer'});
+    CREATE (:person {name: 'Pat'})-[:knows {fromdate:'2013-12-25'}]->(:person {name: 'Nikki'});
+    CREATE (:person {name: 'Olive'})-[:knows {fromdate:'2015-01-26'}]->(:person {name: 'Todd'});
+    MATCH (p:Person {name: 'Tom'}),(k:Person{name: 'Pat'}) 
+    CREATE (p)-[:KNOWS {fromdate:'2017-02-27'} ]->(k); -->
+
+</mapper>

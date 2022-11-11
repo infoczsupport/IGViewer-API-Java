@@ -157,41 +157,4 @@
         </if>
 
     </select>
-
-
-    <update id="callSpAgMap">
-        /* DbMapper.ccallSpAgProperties */ 
-        call sp_ag_map()
-	</update>
-    <update id="callSpAgProperties">
-        /* DbMapper.callSpAgProperties */ 
-        call sp_ag_properties()
-	</update>
-
-    <insert id="createVertex" parameterType="String">
-        /* DbMapper.createVertex */ 
-        CREATE VLABEL ${tableName}
-	</insert>
-    <delete id="dropVertex" parameterType="String">
-        /* DbMapper.dropVertex */ 
-        DROP VLABEL ${tableName} CASCADE;
-	</delete>
-    
-    <insert id="insertVertex" parameterType="map">
-        /* DbMapper.insertVertex */ 
-        CREATE (n:${tableName} ${propertes})
-	</insert>
-    
-
-    <!-- CREATE ELABEL knows;
-    CREATE ELABEL live_together;
-    CREATE ELABEL room_mate inherits (knows, live_together);
-
-
-    CREATE (:person {name: 'Tom'})-[:knows {fromdate:'2011-11-24'}]->(:person {name: 'Summer'});
-    CREATE (:person {name: 'Pat'})-[:knows {fromdate:'2013-12-25'}]->(:person {name: 'Nikki'});
-    CREATE (:person {name: 'Olive'})-[:knows {fromdate:'2015-01-26'}]->(:person {name: 'Todd'});
-    MATCH (p:Person {name: 'Tom'}),(k:Person{name: 'Pat'}) 
-    CREATE (p)-[:KNOWS {fromdate:'2017-02-27'} ]->(k); -->
-
 </mapper>

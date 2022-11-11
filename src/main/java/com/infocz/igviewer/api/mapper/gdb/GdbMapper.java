@@ -24,9 +24,4 @@ public interface GdbMapper {
  
      int callSpAgMap();
      int callSpAgProperties();
-
-     int createVertex(String tableName);
-     int dropVertex(String tableName);     
-     int insertVertex(Map<String, Object> param);
-     
 }

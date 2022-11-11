@@ -21,13 +21,13 @@ public class RdbController {
 	@Autowired RdbService rdbService;
 	@Autowired SessionService sessionService;
 
-	@RequestMapping(value = "/getTableInfo")
-	Map<String, Object> getTableInfo() {
-		log.debug("\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getTableInfo >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+	@RequestMapping(value = "/getTableList")
+	Map<String, Object> getTableList() {
+		log.debug("\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getTableList >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			resultMap.put("rows", rdbService.selectTableInfo());
+			resultMap.put("rows", rdbService.selectTableList());
 		} catch(Exception e) {
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());
@@ -40,7 +40,7 @@ public class RdbController {
 	}
 
 	@RequestMapping(value = "/getTableData")
-	Map<String, Object> selectTableList(@RequestBody Map<String, Object> requestBody) {
+	Map<String, Object> getTableData(@RequestBody Map<String, Object> requestBody) {
 		log.debug("\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getTableData >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		String tableNm = Utils.getString(requestBody.get("tableNm"));
 

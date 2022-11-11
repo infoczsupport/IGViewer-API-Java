@@ -9,12 +9,10 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface RdbMapper {
-     ArrayList<Map<String, Object>> selectTableInfo();
+     ArrayList<Map<String, Object>> selectTableList();
 
      Integer selectTotalCnt(String tableNm);
      ArrayList<Map<String, Object>> selectColumns(String tableNm);
      
-     ArrayList<Map<String, Object>> selectTableLimit(String tableNm);
-
-     ArrayList<Map<String, Object>> selectTableList(String tableNm);
+     ArrayList<Map<String, Object>> selectTableData(Map<String, Object> param);
 }

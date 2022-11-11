@@ -8,8 +8,8 @@
       FROM employee
 	</select>
 
-  <select id="selectTableInfo" resultType="camelMap">
-    /* DbMapper.selectTableInfo */ 
+  <select id="selectTableList" resultType="camelMap">
+    /* DbMapper.selectTableList */ 
     SELECT  t.TABLE_NAME as "KEY"
          ,  t.TABLE_NAME 
          ,  t.TABLE_COMMENT
@@ -42,17 +42,16 @@
       FROM  ${tableNm}
 	</select>
 
-  <select id="selectTableLimit" parameterType="String" resultType="camelMap">
-    /* DbMapper.selectTableLimit */ 
-    SELECT  ROW_NUMBER() over() as "KEY"
-         ,  t.*
+  <select id="selectTableData" parameterType="map" resultType="camelMap">
+    /* DbMapper.selectTableData */ 
+    SELECT  t.*
+      <if test="limit != null and limit != ''">
+         ,  ROW_NUMBER() over() as "KEY"
+      </if>
       FROM  ${tableNm} t
-     limit  10
+      <if test="limit != null and limit != ''">
+        limit  10
+      </if>
 	</select>
 
-  <select id="selectTableList" parameterType="String" resultType="camelMap">
-    /* DbMapper.selectTableList */ 
-    SELECT  *
-      FROM  ${tableNm}
-	</select>
 </mapper>

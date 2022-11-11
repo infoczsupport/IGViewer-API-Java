@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.infocz.igviewer.api.common.Utils;
 import com.infocz.igviewer.api.mapper.gdb.GdbMapper;
+import com.infocz.igviewer.api.mapper.gdb.VertexMapper;
 import com.infocz.igviewer.api.mapper.rdb.RdbMapper;
 
 import lombok.extern.log4j.Log4j2;
@@ -18,6 +19,7 @@ import net.bitnine.agensgraph.deps.org.json.simple.JSONObject;
 @Service
 public class GdbService {
     @Autowired GdbMapper gdbMapper;
+    @Autowired VertexMapper vertexMapper;
     @Autowired RdbMapper rdbMapper;
     
     public List<Map<String, Object>> selectGraphPaths() throws Exception {
@@ -65,18 +67,21 @@ public class GdbService {
         log.debug("tables = {}", tables);
         for (Map<String,Object> map : tables) {
             log.debug("map = {}", map);
-            String table = Utils.getString(map.get("key"));
+            String tableNm = Utils.getString(map.get("key"));
             if("DEL".equals(map.get("act"))) {
-                gdbMapper.dropVertex(table); 
+                vertexMapper.dropVertex(tableNm); 
             } else {
-                gdbMapper.createVertex(table);
-                List<Map<String, Object>> vertex = rdbMapper.selectTableList(table);
+                vertexMapper.createVertex(tableNm);
+                Map<String, Object> par = new HashMap<String, Object>() {{
+                    put("tableNm", tableNm);
+                }};
+                List<Map<String, Object>> vertex = rdbMapper.selectTableData(par);
                 for (Map<String,Object> v : vertex) {
                     Map<String, Object> param = new HashMap<String, Object>();
-                    param.put("tableName", table);
+                    param.put("tableName", tableNm);
                     param.put("propertes", JSONObject.toJSONString(v).replace("\"", "'"));
                     log.debug("param = {}", param);
-                    cntVerTex += gdbMapper.insertVertex(param);
+                    cntVerTex += vertexMapper.insertVertex(param);
                 }
             }             
         }
