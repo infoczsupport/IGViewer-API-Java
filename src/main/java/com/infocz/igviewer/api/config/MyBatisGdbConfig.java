@@ -14,6 +14,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.zaxxer.hikari.HikariDataSource;
@@ -22,6 +24,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @MapperScan(value="com.infocz.igviewer.api.mapper.gdb", sqlSessionFactoryRef="sqlSessionFactoryGdb")
 public class MyBatisGdbConfig {
     @Value("${spring.datasource-gdb.mapper-locations}") String mybatisPath;
+	@Value("${spring.datasource-gdb.mybatis-config}")   private String configPath;
 
     @Primary
     @Bean(name = "dataSourceGdb")
@@ -36,6 +39,8 @@ public class MyBatisGdbConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(mybatisPath));
+        Resource myBatisConfig = new PathMatchingResourcePatternResolver().getResource(configPath);
+        sqlSessionFactoryBean.setConfigLocation(myBatisConfig);
         return sqlSessionFactoryBean.getObject();
     }
 

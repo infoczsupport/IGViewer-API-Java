@@ -21,7 +21,6 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RequestMapping("/api/db")
-@SuppressWarnings("unchecked")
 @RestController
 public class GdbController {
 	@Autowired GdbService gdbService;
@@ -185,30 +184,6 @@ public class GdbController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();		
 		try {
 			gdbService.callProcedure(proc);
-		} catch(Exception e) {
-			resultMap.put("result", "Fail");
-			resultMap.put("msg", e.getMessage());
-			return resultMap;  
-		}
-
-		resultMap.put("result", "Ok");
-		resultMap.put("msg", "");
-		resultMap.put("cnt", 1);
-		return resultMap;
-	}
-
-	@PostMapping("/createVertex")
-	Map<String, Object> createVertex(@RequestBody Map<String, Object> requestBody) throws Exception {
-		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> createVertex");
-		log.debug("requestBody = {}", requestBody);
-
-		String sessionID = Utils.getString(requestBody.get("sessionID"));
-		String graph 	 = sessionService.getGraph(sessionID);
-		List<Map<String, Object>> tables = (List<Map<String, Object>>) requestBody.get("tables");
-
-		Map<String, Object> resultMap = new HashMap<String, Object>();		
-		try {
-			gdbService.createVertex(graph, tables);
 		} catch(Exception e) {
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());

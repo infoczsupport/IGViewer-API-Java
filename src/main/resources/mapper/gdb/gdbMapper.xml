@@ -157,4 +157,13 @@
         </if>
 
     </select>
+
+    <update id="callSpAgMap">
+        /* DbMapper.ccallSpAgProperties */ 
+        call sp_ag_map()
+	</update>
+    <update id="callSpAgProperties">
+        /* DbMapper.callSpAgProperties */ 
+        call sp_ag_properties()
+	</update>
 </mapper>

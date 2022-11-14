@@ -4,17 +4,55 @@
     
     <insert id="createVertex" parameterType="String">
         /* DbMapper.createVertex */ 
-        CREATE VLABEL ${tableName}
+        CREATE VLABEL ${tableNm}
 	</insert>
     <delete id="dropVertex" parameterType="String">
         /* DbMapper.dropVertex */ 
-        DROP VLABEL ${tableName} CASCADE;
+        DROP VLABEL ${tableNm} CASCADE;
 	</delete>
     
     <insert id="insertVertex" parameterType="map">
         /* DbMapper.insertVertex */ 
-        CREATE (n:${tableName} ${propertes})
+        CREATE (n:${tableNm} ${propertes})
 	</insert>
    
+    <select id="selectMetaVertex" parameterType="String" resultType="camelMap">
+        /* DbMapper.selectLabels */ 
+        SELECT vertex
+            ,  col_sn 
+            ,  col_nm
+            ,  col_tp
+            ,  key_tp
+            ,  col_comment
+         FROM  public.ag_meta_vertex
+        WHERE  graph = #{graph}
+        order  by vertex, col_sn
+    </select>
+
+   <insert id="insertMetaVertex" parameterType="map">
+        /* DbMapper.insertMetaVertex */ 
+        INSERT  INTO public.ag_meta_vertex(
+                graph
+	         ,  vertex
+             ,  col_sn
+             ,  col_nm
+             ,  col_tp
+             ,  key_tp
+             ,  col_comment)
+	    VALUES (#{graph}
+             ,  #{tableNm}
+             ,  #{ordinalPosition}
+             ,  #{columnName}
+             ,  #{columnType}
+             ,  #{columnKey}
+             ,  #{columnComment})
+	</insert>
+
+    <delete id="deleteMetaVertex" parameterType="map">
+        /* DbMapper.deleteMetaVertex */ 
+        DELETE  FROM public.ag_meta_vertex
+	     WHERE  graph  = #{graph}
+           AND  vertex = #{tableNm}
+	</delete>
 
 </mapper>

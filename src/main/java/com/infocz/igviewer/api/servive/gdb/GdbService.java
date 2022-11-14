@@ -7,15 +7,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.infocz.igviewer.api.common.Utils;
 import com.infocz.igviewer.api.mapper.gdb.GdbMapper;
 import com.infocz.igviewer.api.mapper.gdb.VertexMapper;
 import com.infocz.igviewer.api.mapper.rdb.RdbMapper;
 
-import lombok.extern.log4j.Log4j2;
-import net.bitnine.agensgraph.deps.org.json.simple.JSONObject;
-
-@Log4j2
 @Service
 public class GdbService {
     @Autowired GdbMapper gdbMapper;
@@ -58,37 +53,6 @@ public class GdbService {
     public int callProcedure(String proc) throws Exception {
         if("Map".equals(proc)) return gdbMapper.callSpAgMap();
         else return gdbMapper.callSpAgProperties();
-    }
-
-    public int createVertex(String graph, List<Map<String, Object>> tables) throws Exception {
-        int cntVerTex = 0;
-        
-        gdbMapper.setGraphPath(graph);
-        log.debug("tables = {}", tables);
-        for (Map<String,Object> map : tables) {
-            log.debug("map = {}", map);
-            String tableNm = Utils.getString(map.get("key"));
-            if("DEL".equals(map.get("act"))) {
-                vertexMapper.dropVertex(tableNm); 
-            } else {
-                vertexMapper.createVertex(tableNm);
-                Map<String, Object> par = new HashMap<String, Object>() {{
-                    put("tableNm", tableNm);
-                }};
-                List<Map<String, Object>> vertex = rdbMapper.selectTableData(par);
-                for (Map<String,Object> v : vertex) {
-                    Map<String, Object> param = new HashMap<String, Object>();
-                    param.put("tableName", tableNm);
-                    param.put("propertes", JSONObject.toJSONString(v).replace("\"", "'"));
-                    log.debug("param = {}", param);
-                    cntVerTex += vertexMapper.insertVertex(param);
-                }
-            }             
-        }
-        gdbMapper.callSpAgMap();
-        gdbMapper.callSpAgProperties();
-
-        return cntVerTex;
     }
     
 }

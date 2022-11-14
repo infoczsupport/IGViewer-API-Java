@@ -18,7 +18,7 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class LoginIntercepter implements HandlerInterceptor {
     public List<String> loginEssential
-            = Arrays.asList("/api/cypher/**", "/api/db/**");
+            = Arrays.asList("/api/cypher/**", "/api/db/**" , "/api/convert/**", "/api/rdb/**");
 
     public List<String> loginInessential
             = Arrays.asList("/api/login/**", "/api/db/connect", "/api/db/getGraphPaths", "/api/db/setGraph");
@@ -28,16 +28,13 @@ public class LoginIntercepter implements HandlerInterceptor {
         String destUri = request.getRequestURI();
         String destQuery = request.getQueryString();
         String dest = (destQuery == null) ? destUri : destUri+"?"+destQuery;
-        log.debug("dest = {}", dest);
                 
         String sessionID = request.getParameter("sessionID");
-        log.debug("sessionID = {}", sessionID);
-        // log.debug(SessionInfo.toStr());
         if(SessionInfo.getSession(sessionID) != null){
-            log.debug("session Ok ==========>");
+            log.debug("\n##### session Ok = {}", dest);
             return true;
         }else{
-            log.debug("session is Null ==========>");
+            log.debug("\n##### session is Null = {}", dest);
             response.sendError(HttpStatus.REQUEST_TIMEOUT.value(), HttpStatus.REQUEST_TIMEOUT.getReasonPhrase());
             return false;
         }

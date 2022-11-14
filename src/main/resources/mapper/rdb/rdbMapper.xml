@@ -19,7 +19,7 @@
       left  join INFORMATION_SCHEMA.COLUMNS c
         on  t.TABLE_SCHEMA = c.TABLE_SCHEMA
        and  t.TABLE_NAME = c.TABLE_NAME
-     WHERE  t.TABLE_SCHEMA='cosmax'
+     WHERE  t.TABLE_SCHEMA='sample'
        and  t.TABLE_TYPE = 'BASE TABLE'
      group  by t.TABLE_NAME
          ,  t.TABLE_COMMENT
@@ -28,9 +28,12 @@
 
   <select id="selectColumns" parameterType="String" resultType="camelMap">
     /* DbMapper.selectColumns */ 
-    SELECT  LOWER(COLUMN_NAME) as COLUMN_NAME
+    SELECT  TABLE_NAME as TABLE_NM
+         ,  ORDINAL_POSITION
+         ,  COLUMN_NAME
     	   ,  COLUMN_KEY
-    	   ,  COLUMN_COMMENT
+    	   ,  COLUMN_TYPE
+    	   ,  COLUMN_COMMENT    	   
       FROM  INFORMATION_SCHEMA.COLUMNS     
      WHERE  TABLE_NAME = #{tableNm}
      ORDER  BY ORDINAL_POSITION;
@@ -53,5 +56,18 @@
         limit  10
       </if>
 	</select>
+
+  <select id="selectMeta" parameterType="map" resultType="camelMap">
+    /* DbMapper.selectMeta */ 
+    SELECT  t.*
+      <if test="limit != null and limit != ''">
+         ,  ROW_NUMBER() over() as "KEY"
+      </if>
+      FROM  ${tableNm} t
+      <if test="limit != null and limit != ''">
+        limit  10
+      </if>
+	</select>
+
 
 </mapper>
