@@ -3,21 +3,21 @@
 <mapper namespace="com.infocz.igviewer.api.mapper.gdb.VertexMapper">
     
     <insert id="createVertex" parameterType="String">
-        /* DbMapper.createVertex */ 
+        /* VertexMapper.createVertex */ 
         CREATE VLABEL ${tableNm}
 	</insert>
     <delete id="dropVertex" parameterType="String">
-        /* DbMapper.dropVertex */ 
+        /* VertexMapper.dropVertex */ 
         DROP VLABEL ${tableNm} CASCADE;
 	</delete>
     
     <insert id="insertVertex" parameterType="map">
-        /* DbMapper.insertVertex */ 
+        /* VertexMapper.insertVertex */ 
         CREATE (n:${tableNm} ${propertes})
 	</insert>
    
     <select id="selectMetaVertex" parameterType="String" resultType="camelMap">
-        /* DbMapper.selectLabels */ 
+        /* VertexMapper.selectLabels */ 
         SELECT vertex
             ,  col_sn 
             ,  col_nm
@@ -30,7 +30,7 @@
     </select>
 
    <insert id="insertMetaVertex" parameterType="map">
-        /* DbMapper.insertMetaVertex */ 
+        /* VertexMapper.insertMetaVertex */ 
         INSERT  INTO public.ag_meta_vertex(
                 graph
 	         ,  vertex
@@ -47,9 +47,8 @@
              ,  #{columnKey}
              ,  #{columnComment})
 	</insert>
-
     <delete id="deleteMetaVertex" parameterType="map">
-        /* DbMapper.deleteMetaVertex */ 
+        /* VertexMapper.deleteMetaVertex */ 
         DELETE  FROM public.ag_meta_vertex
 	     WHERE  graph  = #{graph}
            AND  vertex = #{tableNm}
