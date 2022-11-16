@@ -24,4 +24,9 @@ public interface GdbMapper {
  
      int callSpAgMap();
      int callSpAgProperties();
+
+     int insertAgConvertMeta(Map<String, Object> param);
+     int deleteAgConvertMeta(Map<String, Object> param);     
+     ArrayList<Map<String, Object>> selectAgConvertMeta(Map<String, Object> param);
 }
+

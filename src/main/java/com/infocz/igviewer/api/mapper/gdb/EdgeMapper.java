@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface EdgeMapper {
-     // int createVertex(String tableNm);
-     // int dropVertex(String tableNm);     
-     // int insertVertex(Map<String, Object> param);
+     int createEdge(String edgeNm);
+     int dropEdge(String edgeNm);     
+     int insertEdge(Map<String, Object> param);
 }

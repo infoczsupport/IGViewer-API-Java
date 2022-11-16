@@ -1,7 +1,6 @@
 package com.infocz.igviewer.api.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -195,4 +194,33 @@ public class GdbController {
 		resultMap.put("cnt", 1);
 		return resultMap;
 	}
+
+	
+	@PostMapping("/getConvertMeta")
+	Map<String, Object> getConvertMeta(@RequestBody Map<String, Object> requestBody) throws Exception {		
+		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getConvertMeta");
+		log.debug("requestBody={}", requestBody);
+		
+		String sessionID = Utils.getString(requestBody.get("sessionID"));
+		String graph = sessionService.getGraph(sessionID);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("graph", graph);
+		param.put("labKind", Utils.getString(requestBody.get("labKind")));
+		log.debug("param={}", param);
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			gdbService.setGraphPath(graph);
+			resultMap.put("rows", Utils.convertDoubleQuotation(gdbService.selectAgConvertMeta(param)));
+		} catch(Exception e) {
+			resultMap.put("result", "Fail");
+			resultMap.put("msg", e.getMessage());
+			return resultMap;  
+		}
+
+		resultMap.put("result", "Ok");
+		resultMap.put("msg", "");
+		return resultMap;
+	}
+
 }

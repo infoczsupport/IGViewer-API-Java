@@ -55,4 +55,7 @@ public class GdbService {
         else return gdbMapper.callSpAgProperties();
     }
     
+    public List<Map<String, Object>>  selectAgConvertMeta(Map<String, Object> param) throws Exception {
+        return gdbMapper.selectAgConvertMeta(param);
+    }
 }

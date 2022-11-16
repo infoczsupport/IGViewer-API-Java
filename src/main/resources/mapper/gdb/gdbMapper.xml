@@ -3,7 +3,7 @@
 <mapper namespace="com.infocz.igviewer.api.mapper.gdb.GdbMapper">
 
     <select id="selectGraphPaths" resultType="HashMap">
-        /* DbMapper.selectGraphPaths */ 
+        /* GdbMapper.selectGraphPaths */ 
         SELECT  graphname
              ,  nspid 
           FROM  ag_graph 
@@ -11,12 +11,12 @@
 	</select>
 
     <update id="setGraphPath" parameterType="String">
-        /* DbMapper.setGraphPath */ 
+        /* GdbMapper.setGraphPath */ 
         SET graph_path = '${graph}'
 	</update>
 
     <select id="selectLabels" parameterType="map" resultType="HashMap">
-        /* DbMapper.selectLabels */ 
+        /* GdbMapper.selectLabels */ 
         SELECT labid
             ,  labname 
             ,  labdesc
@@ -29,7 +29,7 @@
     </select>
 
     <select id="selectProperties" parameterType="map" resultType="HashMap">
-        /* DbMapper.selectProperties */ 
+        /* GdbMapper.selectProperties */ 
         SELECT  labname as label
              ,  pname as prop 
              ,  labkind
@@ -39,7 +39,7 @@
     </select>
 
     <select id="selectAgMap" parameterType="map" resultType="HashMap">
-        /* DbMapper.selectAgMap */ 
+        /* GdbMapper.selectAgMap */ 
         SELECT  labid as id
              ,  labname as label
              ,  labdesc as name
@@ -51,7 +51,7 @@
     </select>
 
     <!-- <select id="selectEdgeList" parameterType="map" resultType="HashMap">
-        /* DbMapper.selectEdgeList */ 
+        /* GdbMapper.selectEdgeList */ 
         SELECT  ta.e_label
              ,  ta.count
              ,  am.labdesc as title  
@@ -108,7 +108,7 @@
     </sql>
 
     <select id="selectEdgeList" parameterType="map" resultType="HashMap">
-        /* DbMapper.selectEdgeList */
+        /* GdbMapper.selectEdgeList */
         <if test="keyword.getClass().getSimpleName().equals('String')
                     and category.getClass().getSimpleName().equals('String')">
             <include refid="keywordIsOnly"></include>
@@ -159,11 +159,61 @@
     </select>
 
     <update id="callSpAgMap">
-        /* DbMapper.ccallSpAgProperties */ 
+        /* GdbMapper.ccallSpAgProperties */ 
         call sp_ag_map()
 	</update>
     <update id="callSpAgProperties">
-        /* DbMapper.callSpAgProperties */ 
+        /* GdbMapper.callSpAgProperties */ 
         call sp_ag_properties()
 	</update>
+
+    <insert id="insertAgConvertMeta"  parameterType="map">
+        /* GdbMapper.insertAgConvertMeta */ 
+        INSERT  INTO public.ag_convert_meta(
+                graph
+	         ,  lab_kind
+             ,  lab_nm)
+	    VALUES (#{graph}
+             ,  #{labKind}
+             ,  #{labNm})
+    </insert>
+    <delete id="deleteAgConvertMeta" parameterType="map">
+        /* GdbMapper.deleteMetaVertex */ 
+        DELETE  FROM public.ag_convert_meta
+	     WHERE  graph  = #{graph}
+           AND  lab_nm = #{labNm}
+	</delete>
+
+    <select id="selectAgConvertMeta" parameterType="map" resultType="camelMap">
+        /* GdbMapper.selectAgConvertMeta */ 
+        SELECT  concat(ta.graphname, '.', ta.labname) as "key" 
+             ,  ta.graphname as graph
+             ,  ta.labkind as lab_kind
+             ,  ta.labname as lab_nm
+             ,  ta.graphid
+             ,  ta.labid
+             ,  ta.labdesc
+			 ,  ta.start
+			 ,  ta.end
+             ,  case when tc.labname is null then ta.start else tc.labname end as start_nm
+			 ,  case when td.labname is null then ta.end else td.labname end as end_nm
+			 ,  td.labname
+			 ,  case when tb.graph is null then true else false end as is_null
+          FROM  public.ag_map ta
+          left  join public.ag_convert_meta tb
+            on  ta.graphname = tb.graph
+           and  ta.labkind = tb.lab_kind
+           and  ta.labname = tb.lab_nm
+		  left  join public.ag_map tc 
+		    on  ta.graphname = tc.graphname
+		   and  tc.labkind = 'v'
+		   and  cast( ta.start AS integer ) = tc.labid
+		  left  join public.ag_map td 
+		    on  ta.graphname = td.graphname
+		   and  td.labkind = 'v'
+		   and  cast( ta.end AS integer ) = td.labid
+         WHERE  ta.graphname = #{graph}
+		   and	ta.labkind = 'e'
+    </select>
+
 </mapper>

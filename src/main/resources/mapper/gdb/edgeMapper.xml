@@ -2,15 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.infocz.igviewer.api.mapper.gdb.EdgeMapper">
     
-    <!-- CREATE ELABEL knows;
+    <insert id="createEdge" parameterType="String">
+        /* EdgeMapper.createEdge */ 
+        CREATE ELABEL ${edgeNm}
+	</insert>
+    <delete id="dropEdge" parameterType="String">
+        /* EdgeMapper.dropEdge */ 
+        DROP ELABEL ${edgeNm} CASCADE;
+	</delete>
+    
+    <insert id="insertEdge" parameterType="map">
+        /* EdgeMapper.insertEdge */ 
+        MATCH (a:${mainVertex}), (b:${subVertex})
+        WHERE  a.${mainKey} = b.${subKey}
+        merge (a)- [e:${edgeNm} ${propertes}] -> (b);
+	</insert>
+
+    <!-- 
+
+    MATCH (n)-[r:eg_employee_team]->() DELETE r;
+
     CREATE ELABEL live_together;
     CREATE ELABEL room_mate inherits (knows, live_together);
 
 
-    CREATE (:person {name: 'Tom'})-[:knows {fromdate:'2011-11-24'}]->(:person {name: 'Summer'});
-    CREATE (:person {name: 'Pat'})-[:knows {fromdate:'2013-12-25'}]->(:person {name: 'Nikki'});
-    CREATE (:person {name: 'Olive'})-[:knows {fromdate:'2015-01-26'}]->(:person {name: 'Todd'});
-    MATCH (p:Person {name: 'Tom'}),(k:Person{name: 'Pat'}) 
-    CREATE (p)-[:KNOWS {fromdate:'2017-02-27'} ]->(k); -->
+    load from "public"."t_project_info" as tmp match (a:government_dept), (b:organization) 
+    where a.부처명 = tmp.ab010
+    and b.기관식별번호 = tmp.id4
+    merge (a)- [e:eg_dept_org] -> (b);-->
 
 </mapper>

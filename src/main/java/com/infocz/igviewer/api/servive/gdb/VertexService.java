@@ -41,7 +41,7 @@ public class VertexService {
             }             
         }
         gdbMapper.callSpAgMap();
-        gdbMapper.callSpAgProperties();
+        // gdbMapper.callSpAgProperties();
 
         return cntVerTex;
     }
@@ -62,7 +62,7 @@ public class VertexService {
         return cntVerTex;
     }
 
-    private int insertVertex(String tableNm){
+    public int insertVertex(String tableNm){
         int cntVerTex = 0;
         Map<String, Object> par = new HashMap<String, Object>() {{
             put("tableNm", tableNm);
@@ -71,7 +71,14 @@ public class VertexService {
         for (Map<String,Object> v : vertex) {
             Map<String, Object> param = new HashMap<String, Object>();
             param.put("tableNm", tableNm);
-            param.put("propertes", JSONObject.toJSONString(v).replace("\"", "'"));
+            // param.put("propertes", JSONObject.toJSONString(v).replace("\"", "'"));
+            String propertes = "";
+            for (String str : JSONObject.toJSONString(v).split(",")) {
+                if(!Utils.isEmpty(propertes)) propertes += ", ";
+                propertes += str.replaceFirst("\"", "")
+                  .replaceFirst("\"", "").replace("\"", "'");
+            }
+            param.put("propertes", propertes);
             log.debug("param = {}", param);
             cntVerTex += vertexMapper.insertVertex(param);
         }
