@@ -118,7 +118,7 @@
                     and !category.getClass().getSimpleName().equals('String')
                     and nodesLogic == 'AND'
                     and showCnt == 'true'">
-        SELECT DISTINCT ta.e_label, ca.count FROM (
+        SELECT DISTINCT ta.e_label as e_label, COALESCE(ca.count, '0') as count FROM (
 			<include refid="intersectMatch"></include>
 		) AS ta
         LEFT OUTER JOIN (
@@ -137,6 +137,7 @@
             RETURN label(edge) as e_label, COUNT(DISTINCT b)
         ) AS ca
 		ON ta.e_label = ca.e_label
+        ORDER BY count DESC, e_label DESC
         </if>
 
         <if test="!keyword.getClass().getSimpleName().equals('String')
@@ -154,6 +155,16 @@
             WHERE
             <include refid="keywordForeachOrN1"></include>
             RETURN label(edge) as e_label, COUNT(DISTINCT id(n2)) as count ORDER BY count DESC
+        </if>
+
+        <if test="!keyword.getClass().getSimpleName().equals('String')
+                    and !category.getClass().getSimpleName().equals('String')
+                    and nodesLogic == 'OR'
+                    and showCnt != 'true'">   
+            MATCH (n1) - [edge] - (n2)
+            WHERE
+            <include refid="keywordForeachOrN1"></include>
+            RETURN DISTINCT(label(edge)) as e_label ORDER BY e_label DESC
         </if>
 
     </select>
