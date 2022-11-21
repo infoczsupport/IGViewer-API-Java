@@ -24,6 +24,16 @@ spring:
       maximum-pool-size: 24
       connection-test-query: "SELECT NOW() FROM dual:"
 
+  datasource-rdb2:
+    jdbc-url: jdbc:mariadb://220.76.92.129:3001/sample
+    driverClassName: org.mariadb.jdbc.Driver
+    username: root
+    password: "!@Rjwu34"
+    mapper-locations: "classpath:/mapper/rdb2/**/*.xml"
+    mybatis-config: "classpath:/config/mybatis-config.xml"
+    hikari:
+      maximum-pool-size: 24
+      connection-test-query: "SELECT NOW() FROM dual:"
 com:
   infocz:
     igviewer:

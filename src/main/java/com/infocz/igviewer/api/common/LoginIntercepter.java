@@ -21,7 +21,11 @@ public class LoginIntercepter implements HandlerInterceptor {
             = Arrays.asList("/api/cypher/**", "/api/db/**" , "/api/convert/**", "/api/rdb/**");
 
     public List<String> loginInessential
-            = Arrays.asList("/api/login/**", "/api/db/connect", "/api/db/getGraphPaths", "/api/db/setGraph");
+            = Arrays.asList("/api/login/**"
+                , "/api/db/connect"
+                , "/api/db/getGraphPaths"
+                , "/api/db/setGraph"
+                , "/api/rdb2/**");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
