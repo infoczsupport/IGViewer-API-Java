@@ -24,7 +24,7 @@ public class RdbService {
 
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("tableNm", tableNm);
-        result.put("columns", rdbMapper.selectColumns(tableNm));
+        result.put("columns", rdbMapper.selectColumns(param));
         result.put("rows", rdbMapper.selectTableData(param));
         result.put("totalCnt", rdbMapper.selectTotalCnt(tableNm));
         return result;

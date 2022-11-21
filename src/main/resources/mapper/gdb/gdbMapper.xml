@@ -213,7 +213,7 @@
 		   and  td.labkind = 'v'
 		   and  cast( ta.end AS integer ) = td.labid
          WHERE  ta.graphname = #{graph}
-		   and	ta.labkind = 'e'
+		   and	ta.labkind = #{labKind}
     </select>
 
 </mapper>

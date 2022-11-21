@@ -1,7 +1,6 @@
 package com.infocz.igviewer.api.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RequestMapping("/api/convert")
-@SuppressWarnings("unchecked")
 @RestController
 public class VertexController {
 	@Autowired VertexService vertexService;
@@ -31,11 +29,34 @@ public class VertexController {
 
 		String sessionID = Utils.getString(requestBody.get("sessionID"));
 		String graph 	 = sessionService.getGraph(sessionID);
-		List<Map<String, Object>> tables = (List<Map<String, Object>>) requestBody.get("tables");
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();		
 		try {
-			vertexService.createVertex(graph, tables);
+			vertexService.createVertex(graph, requestBody);
+		} catch(Exception e) {
+			resultMap.put("result", "Fail");
+			resultMap.put("msg", e.getMessage());
+			return resultMap;  
+		}
+
+		resultMap.put("result", "Ok");
+		resultMap.put("msg", "");
+		resultMap.put("cnt", 1);
+		return resultMap;
+	}
+	
+	@PostMapping("/deleteVertex")
+	Map<String, Object> deleteVertex(@RequestBody Map<String, Object> requestBody) throws Exception {
+		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> deleteVertex");
+		log.debug("requestBody = {}", requestBody);
+
+		String sessionID = Utils.getString(requestBody.get("sessionID"));
+		String graph 	 = sessionService.getGraph(sessionID);
+		String vertexNm = Utils.getString(requestBody.get("vertexNm"));
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();		
+		try {
+			vertexService.dropVertex(graph, vertexNm);
 		} catch(Exception e) {
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());

@@ -211,7 +211,8 @@ public class GdbController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			gdbService.setGraphPath(graph);
-			resultMap.put("rows", Utils.convertDoubleQuotation(gdbService.selectAgConvertMeta(param)));
+			// resultMap.put("rows", Utils.convertDoubleQuotation(gdbService.selectAgConvertMeta(param)));
+			resultMap.put("rows", gdbService.selectAgConvertMeta(param));
 		} catch(Exception e) {
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());

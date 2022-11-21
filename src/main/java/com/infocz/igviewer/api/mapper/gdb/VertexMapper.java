@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface VertexMapper {
-     int createVertex(String tableNm);
-     int dropVertex(String tableNm);     
+     int createVertex(String vertexNm);
+     int dropVertex(String vertexNm);     
      int insertVertex(Map<String, Object> param);
      
      ArrayList<Map<String, Object>> selectMetaVertex(String graph);   

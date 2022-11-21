@@ -4,16 +4,16 @@
     
     <insert id="createVertex" parameterType="String">
         /* VertexMapper.createVertex */ 
-        CREATE VLABEL ${tableNm}
+        CREATE VLABEL ${vertexNm}
 	</insert>
     <delete id="dropVertex" parameterType="String">
         /* VertexMapper.dropVertex */ 
-        DROP VLABEL ${tableNm} CASCADE;
+        DROP VLABEL ${vertexNm} CASCADE;
 	</delete>
     
     <insert id="insertVertex" parameterType="map">
         /* VertexMapper.insertVertex */ 
-        CREATE (n:${tableNm} ${propertes})
+        CREATE (n:${vertexNm} ${propertes})
 	</insert>
    
     <select id="selectMetaVertex" parameterType="String" resultType="camelMap">
@@ -40,7 +40,7 @@
              ,  key_tp
              ,  col_comment)
 	    VALUES (#{graph}
-             ,  #{tableNm}
+             ,  #{vertexNm}
              ,  #{ordinalPosition}
              ,  #{columnName}
              ,  #{columnType}
@@ -51,7 +51,7 @@
         /* VertexMapper.deleteMetaVertex */ 
         DELETE  FROM public.ag_meta_vertex
 	     WHERE  graph  = #{graph}
-           AND  vertex = #{tableNm}
+           AND  vertex = #{vertexNm}
 	</delete>
 
 </mapper>

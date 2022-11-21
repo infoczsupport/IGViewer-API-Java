@@ -3,51 +3,63 @@
 <mapper namespace="com.infocz.igviewer.api.mapper.rdb.RdbMapper">
 
   <select id="selectEmployee" resultType="camelMap">
-    /* DbMapper.selectEmployee */ 
+    /* RdbMapper.selectEmployee */ 
     SELECT * 
       FROM employee
 	</select>
 
   <select id="selectTableList" resultType="camelMap">
-    /* DbMapper.selectTableList */ 
+    /* RdbMapper.selectTableList */ 
     SELECT  t.TABLE_NAME as "KEY"
-         ,  t.TABLE_NAME 
+         ,  t.TABLE_NAME
          ,  t.TABLE_COMMENT
-         ,  LOWER(GROUP_CONCAT(case when c.COLUMN_KEY = 'PRI' then c.COLUMN_NAME else null end)) as PRIS
-         ,  LOWER(GROUP_CONCAT(c.COLUMN_NAME)) as COLUMN_NAMES
+         ,  c.COLUMN_KEY
+         ,  c.COLUMN_NAME
+         ,  c.COLUMN_TYPE
+     	   ,  c.COLUMN_COMMENT
       FROM  INFORMATION_SCHEMA.TABLES t
       left  join INFORMATION_SCHEMA.COLUMNS c
         on  t.TABLE_SCHEMA = c.TABLE_SCHEMA
        and  t.TABLE_NAME = c.TABLE_NAME
      WHERE  t.TABLE_SCHEMA='sample'
        and  t.TABLE_TYPE = 'BASE TABLE'
-     group  by t.TABLE_NAME
-         ,  t.TABLE_COMMENT
-     ORDER  BY t.TABLE_NAME
+     ORDER  BY t.TABLE_NAME, c.ORDINAL_POSITION
 	</select>
 
-  <select id="selectColumns" parameterType="String" resultType="camelMap">
-    /* DbMapper.selectColumns */ 
+  <select id="selectColumns" parameterType="map" resultType="camelMap">
+    /* RdbMapper.selectColumns */ 
     SELECT  TABLE_NAME as TABLE_NM
          ,  ORDINAL_POSITION
          ,  COLUMN_NAME
     	   ,  COLUMN_KEY
     	   ,  COLUMN_TYPE
-    	   ,  COLUMN_COMMENT    	   
-      FROM  INFORMATION_SCHEMA.COLUMNS     
+    	   ,  COLUMN_COMMENT
+      FROM  INFORMATION_SCHEMA.COLUMNS
      WHERE  TABLE_NAME = #{tableNm}
+      <if test="columns != null and columns != '' and columns.size() != 0">
+       AND  COLUMN_NAME in
+        <foreach item="item" index="index" collection="columns" open="(" close=")" separator=", ">#{item}</foreach>
+      </if>
      ORDER  BY ORDINAL_POSITION;
 	</select>
 
   <select id="selectTotalCnt" parameterType="String" resultType="integer">
-    /* DbMapper.selectTotalCnt */ 
+    /* RdbMapper.selectTotalCnt */ 
     SELECT  count(1) 
       FROM  ${tableNm}
 	</select>
 
   <select id="selectTableData" parameterType="map" resultType="camelMap">
-    /* DbMapper.selectTableData */ 
-    SELECT  t.*
+    /* RdbMapper.selectTableData */ 
+    SELECT  
+      <choose>
+        <when test="columns != null and columns != '' and columns.size() != 0">
+            <foreach item="item" index="index" collection="columns" separator=", ">${item}</foreach>
+        </when>
+        <otherwise>
+            t.*
+        </otherwise>
+      </choose>
       <if test="limit != null and limit != ''">
          ,  ROW_NUMBER() over() as "KEY"
       </if>
@@ -58,7 +70,7 @@
 	</select>
 
   <select id="selectMeta" parameterType="map" resultType="camelMap">
-    /* DbMapper.selectMeta */ 
+    /* RdbMapper.selectMeta */ 
     SELECT  t.*
       <if test="limit != null and limit != ''">
          ,  ROW_NUMBER() over() as "KEY"

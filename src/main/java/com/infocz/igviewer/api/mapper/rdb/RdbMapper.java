@@ -12,7 +12,7 @@ public interface RdbMapper {
      ArrayList<Map<String, Object>> selectTableList();
 
      Integer selectTotalCnt(String tableNm);
-     ArrayList<Map<String, Object>> selectColumns(String tableNm);
+     ArrayList<Map<String, Object>> selectColumns(Map<String, Object> param);
      
      ArrayList<Map<String, Object>> selectTableData(Map<String, Object> param);
 }

@@ -20,9 +20,9 @@ public class EdgeService {
     
     public int createEdge(String graph, Map<String, Object> param) throws Exception {
         int cnt = 0;        
-        gdbMapper.setGraphPath(graph);
         String edgeNm = Utils.getString(param.get("edgeNm"));
 
+        gdbMapper.setGraphPath(graph);
         edgeMapper.createEdge(edgeNm);
         edgeMapper.insertEdge(param);
 
@@ -34,7 +34,7 @@ public class EdgeService {
         cnt = gdbMapper.insertAgConvertMeta(arg);
 
         gdbMapper.callSpAgMap();
-        gdbMapper.callSpAgProperties();
+        // gdbMapper.callSpAgProperties();
 
         return cnt;
     } 
