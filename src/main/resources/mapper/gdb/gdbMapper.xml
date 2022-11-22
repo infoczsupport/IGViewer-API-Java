@@ -228,3 +228,155 @@
     </select>
 
 </mapper>
+
+ <!-- CREATE TABLE IF NOT EXISTS public.ag_map(
+            graphid oid,
+            graphname name,
+            labid integer,
+            labname name,
+            labdesc text COLLATE pg_catalog."default",
+            labkind character(1) COLLATE pg_catalog."default",
+            start character varying COLLATE pg_catalog."default",
+            "end" character varying COLLATE pg_catalog."default"
+        ) WITH (
+            OIDS = FALSE
+        )
+        TABLESPACE pg_default;
+        
+        
+        CREATE TABLE IF NOT EXISTS public.ag_properties(
+            graphid oid,
+            graphname name,
+            labkind character(1) COLLATE pg_catalog."default",
+            labid integer,
+            labname name,
+            pname text COLLATE pg_catalog."default",
+            regdt timestamp with time zone DEFAULT now()
+        ) WITH (
+            OIDS = FALSE
+        )
+        TABLESPACE pg_default;
+        
+        CREATE INDEX IF NOT EXISTS ag_properties_idx1
+            ON public.ag_properties USING btree
+            (graphname ASC NULLS LAST, labname ASC NULLS LAST)
+            TABLESPACE pg_default;    
+        
+        CREATE OR REPLACE PROCEDURE public.sp_ag_map(
+            )
+        LANGUAGE 'plpgsql'
+        AS $BODY$        
+            
+        DECLARE         
+            V_CURSOR CURSOR FOR
+                SELECT graphid, graphname, labid, labname, labkind,
+                        CASE WHEN obj_description(pc.oid) like 'base table for graph label%' 
+                            THEN al.labname
+                            ELSE obj_description(pc.oid)
+                            END AS labdesc
+                FROM   pg_catalog.ag_label al INNER JOIN pg_catalog.ag_graph ag on ag.oid = al.graphid
+                inner join pg_catalog.pg_class pc on pc.relname = al.labname and pc.relnamespace = ag.nspid
+                WHERE  al.labname not in ('ag_edge','ag_vertex');
+                        
+            V_RECORD  RECORD;
+            V_VERTEX    TEXT;
+            V_EDGE      TEXT;
+            V_EDGELABEL TEXT;
+            V_START     VARCHAR;
+            V_END       VARCHAR;
+        
+        BEGIN		        
+            TRUNCATE TABLE PUBLIC.AG_MAP;
+        
+            FOR V_RECORD IN V_CURSOR LOOP
+            BEGIN        
+                V_VERTEX = CONCAT(V_RECORD.GRAPHNAME ,'.ag_vertex');
+                V_EDGE   = CONCAT(V_RECORD.GRAPHNAME ,'.ag_edge');
+                V_EDGELABEL = CONCAT(V_RECORD.GRAPHNAME , '.', V_RECORD.LABNAME);
+                V_START = NULL;
+                V_END = NULL;
+        
+                IF V_RECORD.LABKIND = 'e' then
+                execute 
+                '   select  split_part(start::varchar,''.'', 1) as start, 
+                            split_part("end"::varchar,''.'', 1) as end 
+                    from ' || V_EDGELABEL  || ' 
+                    limit 1
+                '   into v_start, v_end ;    
+        
+                END IF;
+        
+                INSERT INTO PUBLIC.AG_MAP (
+                                graphid, 
+                                graphname, 
+                                labid, 
+                                labname, 
+                                labdesc, 
+                                labkind, 
+                                start, 
+                                "end")         
+                    VALUES (    v_record.graphid,
+                                v_record.graphname,
+                                v_record.labid,
+                                v_record.labname,
+                                v_record.labdesc,
+                                v_record.labkind,
+                                v_start,
+                                v_end );        
+            END;
+            END LOOP;
+        END 
+        $BODY$;
+               
+        
+        CREATE OR REPLACE PROCEDURE public.sp_ag_properties(
+            )
+        LANGUAGE 'plpgsql'
+        AS $BODY$        
+            
+        DECLARE         
+            V_CURSOR CURSOR FOR
+                SELECT OID, GRAPHNAME
+                FROM   PG_CATALOG.AG_GRAPH;
+                        
+            V_RECORD  RECORD;
+            V_VERTEX  TEXT;
+            V_EDGE    TEXT;
+        
+        BEGIN		        
+            TRUNCATE TABLE PUBLIC.AG_PROPERTIES;
+        
+            FOR V_RECORD IN V_CURSOR LOOP
+            BEGIN        
+                V_VERTEX = CONCAT(V_RECORD.GRAPHNAME ,'.ag_vertex');
+                V_EDGE   = CONCAT(V_RECORD.GRAPHNAME ,'.ag_edge');
+        
+                EXECUTE 
+                '   INSERT INTO PUBLIC.AG_PROPERTIES (
+                                GRAPHID,
+                                GRAPHNAME,
+                                LABID,
+                                LABNAME,
+                                LABKIND,
+                                PNAME ) 
+                        SELECT distinct l.graphid, g.graphname, l.labid, l.labname, l.labkind, jsonb_object_keys(v.properties) 
+                        FROM   PG_CATALOG.AG_LABEL l INNER JOIN PG_CATALOG.AG_GRAPH g ON g.oid = l.graphid, ' || V_VERTEX  || '  v 
+                        WHERE  l.labname not in (''ag_vertex'', ''ag_edge'') 
+                        AND    g.graphname ='''|| V_RECORD.GRAPHNAME  || ''' 
+                        AND    l.labid = cast(split_part(v.id::varchar,''.'', 1) as integer) 
+                    UNION ALL 
+                        SELECT distinct l.graphid, g.graphname, l.labid, l.labname, l.labkind, jsonb_object_keys(v.properties) 
+                        FROM   PG_CATALOG.AG_LABEL l INNER JOIN PG_CATALOG.AG_GRAPH g ON g.oid = l.graphid, ' || V_EDGE  || '  v 
+                        WHERE  l.labname not in (''ag_vertex'', ''ag_edge'') 
+                        AND    g.graphname ='''|| V_RECORD.GRAPHNAME  || ''' 
+                        AND    l.labid = cast(split_part(v.id::varchar,''.'', 1) as integer) 
+                ';			
+            
+            END;
+            END LOOP;
+        END 
+        $BODY$;
+        
+        call sp_ag_map();
+        
+        call sp_ag_properties();     -->

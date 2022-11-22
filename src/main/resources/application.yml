@@ -7,6 +7,11 @@ spring:
     driverClassName: net.bitnine.agensgraph.Driver
     username: infocz
     password: "dlsvhTlwm4ever"
+    # jdbc-url: jdbc:agensgraph://127.0.0.1:5432/infocz
+    # driverClassName: net.bitnine.agensgraph.Driver
+    # username: agens
+    # password: "infocz10!"
+
     mapper-locations: "classpath:/mapper/gdb/**/*.xml"
     mybatis-config: "classpath:/config/mybatis-config.xml"
     hikari:
