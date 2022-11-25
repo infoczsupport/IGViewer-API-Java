@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infocz.igviewer.api.mapper.gdb.MonitorMapper">
+
+    <select id="selectMonitor" resultType="HashMap">
+        /* MonitorMapper.selectMonitor */ 
+        select  monitor
+		  from  public.kt_monitor
+         where (monitor ->> 'CPU') = (select  max(monitor ->> 'CPU') 
+                                       from  public.kt_monitor)
+         limit 1        
+	</select>
+</mapper>

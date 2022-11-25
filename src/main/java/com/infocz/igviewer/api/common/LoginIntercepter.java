@@ -25,7 +25,8 @@ public class LoginIntercepter implements HandlerInterceptor {
                 , "/api/db/connect"
                 , "/api/db/getGraphPaths"
                 , "/api/db/setGraph"
-                , "/api/rdb2/**");
+                , "/api/rdb2/**"
+                , "/if/**");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
