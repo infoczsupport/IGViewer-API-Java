@@ -7,6 +7,7 @@ spring:
     driverClassName: net.bitnine.agensgraph.Driver
     username: infocz
     password: "dlsvhTlwm4ever"
+    database: infocz
     # jdbc-url: jdbc:agensgraph://127.0.0.1:5432/infocz
     # driverClassName: net.bitnine.agensgraph.Driver
     # username: agens
@@ -39,6 +40,12 @@ spring:
     hikari:
       maximum-pool-size: 24
       connection-test-query: "SELECT NOW() FROM dual:"
+
+jwt:
+  header: Authorization
+  secret: and0LXRlc3QtYWxqamFiYWVnaS1qd3QtdGVzdC1hbGpqYWJhZWdpLWp3dC10ZXN0LWFsamphYmFlZ2ktand0LXRlc3QtYWxqamFiYWVnaS1qd3QtdGVzdC1hbGpqYWJhZWdpLWp3dC10ZXN0LWFsamphYmFlZ2ktand0LXRlc3QtYWxqamFiYWVnaS1qd3QtdGVzdC1hbGpqYWJhZWdp
+  token-validity-in-seconds: 86400
+
 com:
   infocz:
     igviewer:

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.infocz.igviewer.api.common.Utils;
 import com.infocz.igviewer.api.servive.gdb.VertexService;
-import com.infocz.igviewer.api.servive.session.SessionService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -20,15 +19,13 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 public class VertexController {
 	@Autowired VertexService vertexService;
-	@Autowired SessionService sessionService;
 
 	@PostMapping("/createVertex")
 	Map<String, Object> createVertex(@RequestBody Map<String, Object> requestBody) throws Exception {
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> createVertex");
 		log.debug("requestBody = {}", requestBody);
 
-		String sessionID = Utils.getString(requestBody.get("sessionID"));
-		String graph 	 = sessionService.getGraph(sessionID);
+		String graph = Utils.getString(requestBody.get("graph"));
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();		
 		try {
@@ -50,8 +47,7 @@ public class VertexController {
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> deleteVertex");
 		log.debug("requestBody = {}", requestBody);
 
-		String sessionID = Utils.getString(requestBody.get("sessionID"));
-		String graph 	 = sessionService.getGraph(sessionID);
+		String graph = Utils.getString(requestBody.get("graph"));
 		String vertexNm = Utils.getString(requestBody.get("vertexNm"));
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();		
@@ -74,8 +70,7 @@ public class VertexController {
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getMetaVertex");
 		log.debug("requestBody = {}", requestBody);
 		
-		String sessionID = Utils.getString(requestBody.get("sessionID"));
-		String graph 	 = sessionService.getGraph(sessionID);
+		String graph = Utils.getString(requestBody.get("graph"));
 		log.debug("graph={}", graph);
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();	

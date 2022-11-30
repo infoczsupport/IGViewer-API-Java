@@ -3,9 +3,9 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 	id 'java'
 }
-
+ 
 group = 'com.infocz'
-version = '1.0'
+version = '3.0'
 sourceCompatibility = '1.8'
 apply plugin: 'war'
 
@@ -22,6 +22,13 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'    
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
     implementation 'org.springframework.boot:spring-boot-devtools:2.6.3'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
 
@@ -29,8 +36,9 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.6'
 
     compileOnly 'org.projectlombok:lombok'
-
     annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.infocz.igviewer.api.common.Utils;
 import com.infocz.igviewer.api.servive.gdb.CypherService;
 import com.infocz.igviewer.api.servive.gdb.GdbService;
-import com.infocz.igviewer.api.servive.session.SessionService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -22,15 +21,13 @@ import lombok.extern.log4j.Log4j2;
 public class CypherController {
 	@Autowired CypherService cypherService;
 	@Autowired GdbService dbService;
-	@Autowired SessionService sessionService;
 
 	@PostMapping("/cypher")
 	Map<String, Object> getCypherData(@RequestBody Map<String, Object> requestBody) throws Exception {		
 		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getCypherData");
 		log.debug("requestBody = {}", requestBody);
 
-		String sessionID = Utils.getString(requestBody.get("sessionID"));
-		String graph = sessionService.getGraph(sessionID);
+		String graph = Utils.getString(requestBody.get("graph"));
 		String sql = Utils.getString(requestBody.get("cmd"));
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();

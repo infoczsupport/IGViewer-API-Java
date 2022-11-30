@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.infocz.igviewer.api.servive.rdb2.Rdb2Service;
-import com.infocz.igviewer.api.servive.session.SessionService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -17,7 +16,6 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 public class Rdb2Controller {
 	@Autowired Rdb2Service rdb2Service;
-	@Autowired SessionService sessionService;
 
 	@RequestMapping(value = "/getEmployee")
 	Map<String, Object> getEmployee() {

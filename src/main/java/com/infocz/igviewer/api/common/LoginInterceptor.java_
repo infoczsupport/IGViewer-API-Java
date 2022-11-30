@@ -16,12 +16,13 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component
-public class LoginIntercepter implements HandlerInterceptor {
+public class LoginInterceptor implements HandlerInterceptor {
     public List<String> loginEssential
             = Arrays.asList("/api/cypher/**", "/api/db/**" , "/api/convert/**", "/api/rdb/**");
 
     public List<String> loginInessential
-            = Arrays.asList("/api/login/**"
+            = Arrays.asList(
+                  "/api/login/**"
                 , "/api/db/connect"
                 , "/api/db/getGraphPaths"
                 , "/api/db/setGraph"

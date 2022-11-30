@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.infocz.igviewer.api.common.Utils;
 import com.infocz.igviewer.api.mapper.gdb.GdbMapper;
 import com.infocz.igviewer.api.mapper.gdb.VertexMapper;
 import com.infocz.igviewer.api.mapper.rdb.RdbMapper;
@@ -25,7 +26,10 @@ public class GdbService {
         return gdbMapper.setGraphPath(graph);
     }
 
-    public Map<String, Object> selectMetaData(Map<String, Object> param, String database, String graph) throws Exception {
+    public Map<String, Object> selectMetaData(Map<String, Object> param) throws Exception {
+        String graph = Utils.getString(param.get("graph"));		
+        String database = Utils.getString(param.get("database"));		
+
         Map<String, Object> metaData = new HashMap<String, Object>();
 
         try {
