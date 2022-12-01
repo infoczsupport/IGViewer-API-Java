@@ -11,6 +11,5 @@ public class UserDTO {
 	private String userNm;
 	private String userPwd;
 	private Boolean isUse;
-	// private Set<AuthDTO> auth;
 	private List<String> auth;
 }

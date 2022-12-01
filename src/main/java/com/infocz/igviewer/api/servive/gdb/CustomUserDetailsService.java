@@ -29,11 +29,11 @@ import lombok.extern.log4j.Log4j2;
 public class CustomUserDetailsService implements UserDetailsService{
     // infocz4ever
     List<Map<String, Object>> users = Arrays.asList(
-      new HashMap<String, Object>() {{put("loginId", "infocz"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("viewer")); put("isUse", true);}}
-    , new HashMap<String, Object>() {{put("loginId", "infocz-admin"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("admin")); put("isUse", true);}}
-    , new HashMap<String, Object>() {{put("loginId", "igviewer"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("viewer")); put("isUse", true);}}
-    , new HashMap<String, Object>() {{put("loginId", "igconverter"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("converter", "igadmin")); put("isUse", true);}}
-    , new HashMap<String, Object>() {{put("loginId", "igadmin"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("igadmin")); put("isUse", true);}}
+          new HashMap<String, Object>() {{put("loginId", "infocz"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("viewer")); put("isUse", true);}}
+        , new HashMap<String, Object>() {{put("loginId", "infocz-admin"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("admin")); put("isUse", true);}}
+        , new HashMap<String, Object>() {{put("loginId", "igviewer"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("viewer")); put("isUse", true);}}
+        , new HashMap<String, Object>() {{put("loginId", "igconverter"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("converter", "igadmin")); put("isUse", true);}}
+        , new HashMap<String, Object>() {{put("loginId", "igadmin"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("igadmin")); put("isUse", true);}}
     );
 
     @Override
