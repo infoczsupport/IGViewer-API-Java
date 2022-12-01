@@ -58,16 +58,14 @@ public class SecurityConfig {
                     .and()
                     .authorizeRequests()
                     .antMatchers(
-						  "/com/**").permitAll()
-						// , "/api/db/**"
-						// , "/api/rdb/**"
-						// , "/api/rdb2/**").permitAll()
+						  "/com/**"
+                        , "/if/**").permitAll()
+                    // .antMatchers("/api/rdb/getTableData").hasAuthority("converter")   
 					.anyRequest().authenticated()
 
                     /**JwtSecurityConfig 적용 */
                     .and()
                     .apply(new JwtSecurityConfig(tokenProvider))
-
 
                     .and().build();
     }

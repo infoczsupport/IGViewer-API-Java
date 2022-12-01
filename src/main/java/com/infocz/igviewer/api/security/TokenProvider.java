@@ -25,7 +25,9 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Component
 public class TokenProvider implements InitializingBean {
     private final Logger LOGGER = LoggerFactory.getLogger(TokenProvider.class);
@@ -54,8 +56,8 @@ public class TokenProvider implements InitializingBean {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
         long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
-
+        Date validity = new Date(now + this.tokenValidityInMilliseconds * 1000);
+        log.debug("validity time = {}, {}", now, validity);
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 // .claim("userId", authentication.getName())
@@ -96,4 +98,14 @@ public class TokenProvider implements InitializingBean {
         }
         return false; 
     }
+
+    // public String getSubject(String token) {
+    //     Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    //     return claims.getSubject();
+    // }
+    
+    // public Claims getTokenData(String token) {
+    // 	Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    // 	return claims;
+    // }
 }

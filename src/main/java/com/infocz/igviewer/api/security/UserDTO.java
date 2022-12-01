@@ -1,5 +1,7 @@
 package com.infocz.igviewer.api.security;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -10,5 +12,5 @@ public class UserDTO {
 	private String userPwd;
 	private Boolean isUse;
 	// private Set<AuthDTO> auth;
-	private String auth;
+	private List<String> auth;
 }
