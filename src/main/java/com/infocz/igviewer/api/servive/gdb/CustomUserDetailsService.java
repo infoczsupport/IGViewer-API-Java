@@ -33,8 +33,8 @@ public class CustomUserDetailsService implements UserDetailsService{
       new HashMap<String, Object>() {{put("loginId", "infocz"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("viewer")); put("isUse", true);}}
     , new HashMap<String, Object>() {{put("loginId", "infocz-admin"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("admin")); put("isUse", true);}}
     , new HashMap<String, Object>() {{put("loginId", "igviewer"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("viewer")); put("isUse", true);}}
-    , new HashMap<String, Object>() {{put("loginId", "igconverter"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("converter", "admin")); put("isUse", true);}}
-    , new HashMap<String, Object>() {{put("loginId", "igadmin"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("admin")); put("isUse", true);}}
+    , new HashMap<String, Object>() {{put("loginId", "igconverter"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("converter", "igadmin")); put("isUse", true);}}
+    , new HashMap<String, Object>() {{put("loginId", "igadmin"); put("userPwd", "$2a$10$XR.W61vu9oJNP/BXhwk2m.HvBehy6T5fV./aK/xsVHb2HkP8kY9Ga"); put("auth", Arrays.asList("igadmin")); put("isUse", true);}}
     );
 
     @Override
@@ -60,15 +60,12 @@ public class CustomUserDetailsService implements UserDetailsService{
 
     /**Security User 정보를 생성한다. */
     private UserDetails createUser(String loginId, UserDTO userDTO) {
-        log.debug("userDTO = {}", userDTO);
         if(!userDTO.getIsUse()){
-            log.debug("userDTO.getIsUse() = {}", userDTO.getIsUse());
             throw new BadCredentialsException(loginId + " -> 활성화 되어있지 않습니다.");
         }
         List<GrantedAuthority> grantedAuthorities = userDTO.getAuth().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority))
                 .collect(Collectors.toList());
-        log.debug("grantedAuthorities = {}", grantedAuthorities);       
         return User.builder().username(userDTO.getLoginId())
                       .password(userDTO.getUserPwd())
                       .authorities(grantedAuthorities).build();

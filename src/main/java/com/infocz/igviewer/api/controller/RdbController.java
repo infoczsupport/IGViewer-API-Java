@@ -20,7 +20,6 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 public class RdbController {
 	@Autowired RdbService rdbService;
-
 	
 	@PostMapping(value = "/getTableList")
 	Map<String, Object> getTableList() {

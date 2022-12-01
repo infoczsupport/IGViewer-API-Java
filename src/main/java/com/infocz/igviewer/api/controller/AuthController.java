@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.infocz.igviewer.api.common.Utils;
 import com.infocz.igviewer.api.security.JwtFilter;
 import com.infocz.igviewer.api.security.TokenProvider;
-import com.infocz.igviewer.api.servive.gdb.AuthService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -34,8 +32,6 @@ public class AuthController {
 	private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 	
-	@Autowired AuthService authService;
-
 	@PostMapping("/login")
 	ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, Object> requestBody, HttpSession session) throws Exception {
 		log.debug("\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> login");
@@ -46,7 +42,6 @@ public class AuthController {
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(id, pwd);
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-		log.debug("authentication = {}", authentication);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.createToken(authentication);
@@ -59,7 +54,7 @@ public class AuthController {
 		resMap.put("result","Ok");
 		resMap.put("msg","");
 		resMap.put("jwt", jwt);
-		resMap.put("userInfo", authService.selectUserInfo(requestBody));
+		resMap.put("userInfo", authentication.getPrincipal());
 
 		return new ResponseEntity<>(resMap, httpHeaders, HttpStatus.OK);
 	}	
