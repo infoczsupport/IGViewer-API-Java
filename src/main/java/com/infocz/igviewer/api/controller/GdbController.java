@@ -3,8 +3,6 @@ package com.infocz.igviewer.api.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +21,15 @@ import lombok.extern.log4j.Log4j2;
 public class GdbController {
 	@Value("${spring.datasource-gdb.database}") String database;
 
+	// @Autowired ConnectService cnnectService;
 	@Autowired GdbService gdbService;
 
 	@PostMapping("/connect")
-	Map<String, Object> connect(@RequestBody Map<String, Object> requestBody, HttpSession session) {
-		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> connect >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+	Map<String, Object> connect(@RequestBody Map<String, Object> requestBody) throws Exception {
+		log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> connect");
 		log.debug("requestBody = {}", requestBody);
+
+		// cnnectService.createDs(requestBody);
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("result","Ok");
@@ -45,7 +46,6 @@ public class GdbController {
 		try {
 			resultMap.put("rows", gdbService.selectGraphPaths());
 		} catch(Exception e) {
-			log.debug("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> {}", e.getMessage());
 			resultMap.put("result", "Fail");
 			resultMap.put("msg", e.getMessage());
 			return resultMap;  
