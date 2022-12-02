@@ -61,7 +61,7 @@ public class CypherService {
                     map.put(columnLabel,  Utils.getString(pgObject).replace("\"", ""));
                 }
             }
-            log.debug("map ={}", map);
+            // log.debug("map ={}", map);
             rows.add(map);
         }
         
@@ -69,6 +69,7 @@ public class CypherService {
         retMap.put("columns", this.getColumns(rows));
         retMap.put("rowCount", rows.size());
         retMap.put("command", "SELECT");
+        log.debug("select row count ={}", rows.size());
         return retMap;
     }
 
