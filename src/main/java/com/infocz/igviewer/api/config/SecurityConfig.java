@@ -59,7 +59,8 @@ public class SecurityConfig {
                     .authorizeRequests()
                     .antMatchers(
 						  "/com/**"
-                        , "/if/**").permitAll()
+                        , "/api/cypher/**"
+                        , "/api/getDbMonitor").permitAll()
                     // .antMatchers("/api/rdb/getTableData").hasAuthority("converter")   
 					.anyRequest().authenticated()
 
