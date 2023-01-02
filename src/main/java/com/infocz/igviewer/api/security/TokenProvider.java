@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -60,7 +61,18 @@ public class TokenProvider implements InitializingBean {
         log.debug("validity time = {}, {}", now, validity);
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                // .claim("userId", authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .setExpiration(validity)
+                .compact();
+    }
+
+    public String createToken(String loginId, String authorities){
+        long now = (new Date()).getTime();
+        Date validity = new Date(now + this.tokenValidityInMilliseconds * 1000);
+        log.debug("validity time = {}, {}", now, validity);
+        return Jwts.builder()
+                .setSubject(loginId)
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)

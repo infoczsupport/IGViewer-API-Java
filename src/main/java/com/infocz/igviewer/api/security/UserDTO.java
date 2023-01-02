@@ -11,5 +11,14 @@ public class UserDTO {
 	private String userNm;
 	private String userPwd;
 	private Boolean isUse;
-	private List<String> auth;
+	private List<String> auth;	
+
+	// public UserDTO(String userId, String loginId, String userNm, String userPwd, boolean isUse, List<String> auth) {
+	// 	this.userId = userId;
+	// 	this.loginId = loginId;
+	// 	this.userNm = userNm;
+	// 	this.userPwd = userPwd;
+	// 	this.isUse = isUse;
+	// 	this.auth = auth;
+	// }
 }

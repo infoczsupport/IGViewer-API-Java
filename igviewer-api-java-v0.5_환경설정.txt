@@ -13,6 +13,7 @@ https://start.spring.io/
 
 2. gradle refresh and compile
 ./gradlew --refresh-dependencies
+./gradlew bootWar
 
 
 * 적용 기술
