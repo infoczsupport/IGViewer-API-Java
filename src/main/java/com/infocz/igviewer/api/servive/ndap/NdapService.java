@@ -11,7 +11,6 @@ import org.springframework.boot.json.JsonParseException;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.log4j.Log4j2;
-import net.bitnine.agensgraph.deps.org.json.simple.JSONObject;
 
 @Log4j2
 @Service
