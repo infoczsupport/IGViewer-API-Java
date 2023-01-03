@@ -51,6 +51,6 @@ logging:
     root: info
     com: 
       infocz: 
-        igviewer:
+        infoCruise:
           api: debug
             
