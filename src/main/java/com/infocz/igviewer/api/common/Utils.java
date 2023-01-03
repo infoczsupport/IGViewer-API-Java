@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import lombok.extern.log4j.Log4j2;
-
-@Log4j2
 public class Utils {
 	/**
 	 * uuid 생성
@@ -96,6 +93,7 @@ public class Utils {
 		return str.trim();
 	}
 
+	@SuppressWarnings("unchecked")
 	public static String[] getStringArray(Object obj) {
 		if (obj == null) return null;
 

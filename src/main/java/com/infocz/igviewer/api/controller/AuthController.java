@@ -73,8 +73,8 @@ public class AuthController {
 		log.debug("\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ssoLogin");
 		log.debug("requestBody = {}", requestBody);
 
-        String id = Utils.getString(requestBody.get("id"));
-        String pwd = Utils.getString(requestBody.get("pwd"));
+        // String id = Utils.getString(requestBody.get("id"));
+        // String pwd = Utils.getString(requestBody.get("pwd"));
 
 		// PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		// log.debug("{}, {}", pwd, passwordEncoder.encode(pwd));
