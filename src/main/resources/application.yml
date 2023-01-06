@@ -3,7 +3,8 @@ server:
 
 spring:
   datasource-gdb:
-    jdbc-url: jdbc:agensgraph://220.76.92.129:15432/infocz
+    # jdbc-url: jdbc:agensgraph://220.76.92.129:15432/infocz
+    jdbc-url: jdbc:agensgraph://220.76.92.129:15432/klineage
     driverClassName: net.bitnine.agensgraph.Driver
     username: infocz
     password: "dlsvhTlwm4ever"
