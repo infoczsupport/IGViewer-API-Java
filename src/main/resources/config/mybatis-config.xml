@@ -8,7 +8,7 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias type="com.infocz.igviewer.api.common.CamelMap" alias="camelMap"/>
+		<typeAlias type="com.infocz.infoCruise.api.common.CamelMap" alias="camelMap"/>
 	</typeAliases>
 
 </configuration>

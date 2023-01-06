@@ -3,16 +3,15 @@ server:
 
 spring:
   datasource-gdb:
-    # jdbc-url: jdbc:agensgraph://220.76.92.129:15432/infocz
-    jdbc-url: jdbc:agensgraph://220.76.92.129:15432/klineage
+    jdbc-url: jdbc:agensgraph://220.76.92.129:15432/infocz
     driverClassName: net.bitnine.agensgraph.Driver
     username: infocz
     password: "dlsvhTlwm4ever"
     database: infocz
-    # jdbc-url: jdbc:agensgraph://127.0.0.1:5432/infocz
-    # driverClassName: net.bitnine.agensgraph.Driver
+    # jdbc-url: jdbc:agensgraph://192.168.0.65:25431/ldbc
     # username: agens
-    # password: "infocz10!"
+    # password: "agens"
+    # database: ldbc
 
     mapper-locations: "classpath:/mapper/gdb/**/*.xml"
     mybatis-config: "classpath:/config/mybatis-config.xml"
@@ -52,6 +51,6 @@ logging:
     root: info
     com: 
       infocz: 
-        igviewer:
+        infoCruise:
           api: debug
             
